@@ -32,7 +32,10 @@ export const AntTable = (props) => {
         let item = newData[index]
         item = { ...item, ...row }
         newData.splice(index, 1, { ...item, ...row })
-        props.setData(newData)
+        props.setData((state) => ({
+          ...state,
+          data: newData,
+        }))
 
         axios
           .put(`/sc-districts/api/info-blocks/${record.id}`, row)

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import axios from 'axios'
 import { PageHeader, Select } from 'antd'
@@ -10,42 +10,32 @@ export const Admin = () => {
   const { Option } = Select
 
   const [state, setState] = useState({ loading: true, data: [] })
-  const [data, setData] = useState([])
-  const [value, setValue] = useState('Алатауский район')
+  const [value, setValue] = useState('')
 
   useEffect(() => {
     axios
-      .get('/sc-districts/api/info-blocks')
+      .get(`/sc-districts/api/info-blocks?district=${value}`)
       .then((res) => {
-        if (res.status === 200) {
-          setState({ loading: false, data: res.data })
+        if (res.status === 200 && res.data.length > 0) {
+          setState({
+            loading: false,
+            data: res.data[0].blocks.map((item, key) => ({
+              key,
+              '№': key + 1,
+              ru: item.ru,
+              kz: item.kz,
+              measurement: item.measurement,
+              'is-visible': item['is-visible'],
+              value: item.value,
+              id: item.id,
+            })),
+          })
         }
       })
       .catch((err) => console.log(err))
 
     return () => setState({ loading: true, data: [] })
-  }, [])
-
-  useMemo(() => {
-    if (state.data.length > 0) {
-      let arr = state.data.find((item) => item.district === value)
-
-      arr = arr
-        ? arr.blocks.map((item, key) => ({
-            key,
-            '№': key + 1,
-            ru: item.ru,
-            kz: item.kz,
-            measurement: item.measurement,
-            'is-visible': item['is-visible'],
-            value: item.value,
-            id: item.id,
-          }))
-        : []
-
-      setData(arr)
-    }
-  }, [value, state.data])
+  }, [value])
 
   return (
     <>
@@ -54,7 +44,6 @@ export const Admin = () => {
         <Select
           allowClear
           placeholder='Районы Алматы'
-          defaultValue='Алатауский район'
           onChange={(value) => setValue(value)}
           style={{
             width: 250,
@@ -65,7 +54,11 @@ export const Admin = () => {
             <Option key={dis}>{dis}</Option>
           ))}
         </Select>
-        <Table data={data} loading={state.loading} setData={setData} />
+        <Table
+          data={state.data}
+          loading={value ? state.loading : false}
+          setData={setState}
+        />
       </div>
     </>
   )
