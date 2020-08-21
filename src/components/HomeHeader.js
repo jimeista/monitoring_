@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const HomeHeader = () => {
-  return <div>Header</div>
+  return <div className='home-header'>Header</div>
 }

@@ -14,3 +14,41 @@
   margin: auto;
   padding: 20px 0;
 }
+
+.home-header,
+.home-hero {
+  width: 100%;
+  height: 10vh;
+}
+
+.card {
+  width: 33%;
+  height: 40vh;
+  display: grid;
+  grid-template-columns: 70px auto;
+  grid-template-rows: auto auto auto;
+  background-color: #fff;
+  font-size: 23px;
+  color: #333;
+  padding: 20px;
+}
+
+.home-card-panel {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-value {
+  font-size: 30px;
+  color: red;
+  font-weight: 700;
+  top: 0;
+}
+
+span {
+  display: flex;
+  align-items: top;
+  font-size: 12px;
+  margin-right: 15px;
+}
