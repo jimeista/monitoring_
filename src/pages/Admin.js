@@ -9,7 +9,7 @@ import { AntTable as Table } from '../components/AntTable'
 export const Admin = () => {
   const { Option } = Select
 
-  const [loading, setLoading] = useState(true)
+  const [state, setState] = useState({ loading: true, data: [] })
   const [data, setData] = useState([])
   const [value, setValue] = useState('Алатауский район')
 
@@ -18,32 +18,34 @@ export const Admin = () => {
       .get('/sc-districts/api/info-blocks')
       .then((res) => {
         if (res.status === 200) {
-          setData(res.data)
-          setLoading(false)
+          setState({ loading: false, data: res.data })
         }
       })
       .catch((err) => console.log(err))
 
-    return () => setLoading(true)
+    return () => setState({ loading: true, data: [] })
   }, [])
 
-  let dataSource = useMemo(() => {
-    if (data.length > 0) {
-      const arr = data.find((item) => item.district === value)
+  useMemo(() => {
+    if (state.data.length > 0) {
+      let arr = state.data.find((item) => item.district === value)
 
-      console.log(arr)
-      return arr.blocks.map((item, key) => ({
-        key,
-        '№': key + 1,
-        ru: item.ru,
-        kz: item.kz,
-        ms: item.measurement,
-        status: item.status,
-        data: item.value,
-        id: item.id,
-      }))
+      arr = arr
+        ? arr.blocks.map((item, key) => ({
+            key,
+            '№': key + 1,
+            ru: item.ru,
+            kz: item.kz,
+            measurement: item.measurement,
+            'is-visible': item['is-visible'],
+            value: item.value,
+            id: item.id,
+          }))
+        : []
+
+      setData(arr)
     }
-  }, [value, data])
+  }, [value, state.data])
 
   return (
     <>
@@ -63,7 +65,7 @@ export const Admin = () => {
             <Option key={dis}>{dis}</Option>
           ))}
         </Select>
-        <Table data={dataSource} loading={loading} />
+        <Table data={data} loading={state.loading} setData={setData} />
       </div>
     </>
   )

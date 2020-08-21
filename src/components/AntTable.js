@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-// import axios from 'axios'
+import axios from 'axios'
 import { EditableCell } from './EditableCell'
 
 import { Table, Popconfirm, Form } from 'antd'
@@ -30,17 +30,14 @@ export const AntTable = (props) => {
       const index = newData.findIndex((item) => record.key === item.key)
       if (index > -1) {
         let item = newData[index]
-        item = { ...item, ms: row.ms, status: row.status, data: row.data }
+        item = { ...item, ...row }
         newData.splice(index, 1, { ...item, ...row })
-        props.setData((state) => ({
-          ...state,
-          data: newData,
-        }))
+        props.setData(newData)
 
-        // axios
-        //   .put(`http://localhost:3000/api/${record.parentId}`, newData)
-        //   .then((res) => console.log(res))
-        //   .catch((err) => console.log(err))
+        axios
+          .put(`/sc-districts/api/info-blocks/${record.id}`, row)
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err))
         setEditingKey('')
       } else {
         newData.push(row)
@@ -65,7 +62,6 @@ export const AntTable = (props) => {
       ...col,
       onCell: (record) => ({
         record,
-        type: col.type,
         dataIndex: col.dataIndex,
         editing: isEditing(record),
       }),
@@ -160,18 +156,19 @@ const columns = [
     key: 3,
     title: 'Ед измерения',
     editable: true,
-    dataIndex: 'ms',
+    dataIndex: 'measurement',
   },
   {
     key: 4,
     title: 'Данные',
-    dataIndex: 'data',
+    dataIndex: 'value',
     editable: true,
   },
   {
     key: 5,
     title: 'Статус',
-    dataIndex: 'status',
+    dataIndex: 'is-visible',
     editable: true,
+    render: (isVisible) => (isVisible ? 'Открыт' : 'Скрыт'),
   },
 ]

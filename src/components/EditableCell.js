@@ -19,7 +19,7 @@ export const EditableCell = ({
             margin: 0,
           }}
           rules={
-            dataIndex !== 'ms' && [
+            dataIndex !== 'measurement' && [
               {
                 required: true,
                 message: `Заполните поле!`,
@@ -38,14 +38,18 @@ export const EditableCell = ({
 
 const customSwitch = (dataIndex) => {
   switch (dataIndex) {
-    case 'status':
+    case 'is-visible':
       return (
-        <Select placeholder='Выбрать статус'>
-          <Select.Option key='Открыт'>Открыт</Select.Option>
-          <Select.Option key='Скрыт'>Скрыт</Select.Option>
+        <Select>
+          <Select.Option value={true} key='Открыт'>
+            Открыт
+          </Select.Option>
+          <Select.Option value={false} key='Скрыт'>
+            Скрыт
+          </Select.Option>
         </Select>
       )
-    case 'data':
+    case 'value':
       return <InputNumber />
     default:
       return <Input placeholder='Введите значение' />
