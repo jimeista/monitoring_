@@ -1,11 +1,16 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import { Admin } from './components/Admin'
+import { Routes } from './Routes'
 import './App.css'
 import 'antd/dist/antd.css'
 
 function App() {
-  return <Admin />
+  return (
+    <Router>
+      <Routes />
+    </Router>
+  )
 }
 
 export default App
