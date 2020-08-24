@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-
+import Slider from 'react-slick'
 import axios from 'axios'
+
 import { CardPanel } from '../components/CardPanel'
 import { HomeHeader } from '../components/HomeHeader'
 import { HomeHero } from '../components/HomeHero'
@@ -20,19 +21,32 @@ export const Home = () => {
   }, [])
 
   return (
-    <div>
+    <div className='home'>
       <HomeHeader />
-      <>
-        <HomeHero
-          data={{
-            date: state.data ? state.data[0]['last-edit'] : '08-21-2020',
-            title: state.data ? state.data[0].district : 'Алатауский район',
-          }}
-        />
-        <div className='home-card-panel'>
-          {!state.loading && <CardPanel blocks={state.data[0].blocks} />}
-        </div>
-      </>
+      {!state.loading && (
+        <Slider {...settings}>
+          {state.data.map((item) => (
+            <div className='carousel-wrapper' key={item.district}>
+              <HomeHero
+                data={{
+                  date: item['last-edit'],
+                  title: item.district,
+                }}
+              />
+              {!state.loading && <CardPanel blocks={item.blocks} />}
+            </div>
+          ))}
+        </Slider>
+      )}
     </div>
   )
+}
+
+const settings = {
+  // autoplay: true,
+  // autoplaySpeed: 54000,
+  slidesToShow: 1,
+  lazyLoad: true,
+  slidesToScroll: 1,
+  speed: 500,
 }
