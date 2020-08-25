@@ -25,17 +25,21 @@ export const Home = () => {
       <HomeHeader />
       {!state.loading && (
         <Slider {...settings}>
-          {state.data.map((item) => (
-            <div className='carousel-wrapper' key={item.district}>
-              <HomeHero
-                data={{
-                  date: item['last-edit'],
-                  title: item.district,
-                }}
-              />
-              {!state.loading && <CardPanel blocks={item.blocks} />}
-            </div>
-          ))}
+          {state.data.map((item) => {
+            const blocks = item.blocks.filter((item) => item['is-visible'])
+
+            return (
+              <div className='carousel-wrapper' key={item.district}>
+                <HomeHero
+                  data={{
+                    date: item['last-edit'],
+                    title: item.district,
+                  }}
+                />
+                {!state.loading && <CardPanel blocks={blocks} />}
+              </div>
+            )
+          })}
         </Slider>
       )}
     </div>
@@ -43,8 +47,8 @@ export const Home = () => {
 }
 
 const settings = {
-  // autoplay: true,
-  // autoplaySpeed: 54000,
+  autoplay: true,
+  autoplaySpeed: 51000,
   slidesToShow: 1,
   lazyLoad: true,
   slidesToScroll: 1,
