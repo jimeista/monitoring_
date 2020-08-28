@@ -7,7 +7,7 @@ import 'antd/dist/antd.css'
 
 function App() {
   return (
-    <Router>
+    <Router basename='/sc-districts/home'>
       <Routes />
     </Router>
   )

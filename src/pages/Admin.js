@@ -38,20 +38,19 @@ export const Admin = () => {
   }, [value])
 
   return (
-    <>
+    <div className='admin_panel_style'>
       <PageHeader className='admin-header' title='Админ панель' />
       <div className='admin-wrapper'>
         <Select
           allowClear
           placeholder='Районы Алматы'
           onChange={(value) => setValue(value)}
-          style={{
-            width: 250,
-            marginBottom: 20,
-          }}
+          style={{}}
         >
           {districts.map((dis) => (
-            <Option key={dis}>{dis}</Option>
+            <Option key={dis} value={dis}>
+              {dis}
+            </Option>
           ))}
         </Select>
         <Table
@@ -60,7 +59,7 @@ export const Admin = () => {
           setData={setState}
         />
       </div>
-    </>
+    </div>
   )
 }
 
@@ -69,7 +68,7 @@ const districts = [
   'Алмалинский район',
   'Ауэзовский район',
   'Бостандыкский район',
-  'Жетесуский район',
+  'Жетысуский район',
   'Медеуский район',
   'Наурызбайский район',
   'Турксибский район',
