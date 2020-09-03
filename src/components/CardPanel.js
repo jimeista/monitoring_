@@ -4,7 +4,9 @@ import Slider from 'react-slick'
 import { Card } from './Card'
 
 export const CardPanel = ({ blocks }) => {
-  const cards = blocks.map((item, index) => {
+  const arr = blocks.filter((i) => i['is-visible'])
+
+  const cards = arr.map((item, index) => {
     return Object.keys(item).length > 0 ? (
       <Card
         key={index}
@@ -19,10 +21,11 @@ export const CardPanel = ({ blocks }) => {
     )
   })
 
-  return <Slider {...settings}>{cards} </Slider>
+  return <Slider {...settings}> {cards} </Slider>
 }
 
 const settings = {
+  infinite: true,
   autoplay: true,
   autoplaySpeed: 19000,
   slidesToShow: 3,
