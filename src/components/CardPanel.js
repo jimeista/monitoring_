@@ -15,6 +15,8 @@ export const CardPanel = ({ blocks }) => {
         ru={item.ru}
         kz={item.kz}
         index={index + 1}
+        length={arr.length}
+        id={'style_img' + item.id}
       />
     ) : (
       <div className='card card_style_main' />
@@ -28,11 +30,10 @@ const settings = {
   infinite: true,
   autoplay: true,
   autoplaySpeed: 19000,
-  slidesToShow: 3,
   slidesToScroll: 3,
-  speed: 500,
   rows: 2,
+  slidesToShow: 3,
+  speed: 500,
   height: '50%',
-  border: '1px solid red',
   className: 'CardPanel_style',
 }

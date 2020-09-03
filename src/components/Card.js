@@ -4,7 +4,7 @@ export const Card = (props) => {
   const [classname, setClassName] = useState({})
 
   useEffect(() => {
-    const timeout = setIndexTimeOut(props.index)
+    const timeout = setIndexTimeOut(props.index, props.length)
     setTimeout(() => {
       setClassName('active')
     }, [timeout * 1000])
@@ -12,26 +12,28 @@ export const Card = (props) => {
 
   return (
     <div className={`${classname} card card_style_main`}>
-      <div className='card-row'>
-        <span className='text_data_style'>DATA</span>
-        <span className={'card-value'}>
-          {props.value} {props.measurement}
-        </span>
-      </div>
-      <div className='card-bordered' />
-      <div className='card-row'>
-        <span>RU</span> <div>{props.ru}</div>
-      </div>
-      <div className='card-bordered' />
-      <div className='card-row'>
-        <span>QZ</span>
-        <div>{props.kz}</div>
+      <div id={props.id}>
+        <div className='card-row'>
+          <span className='text_data_style'>DATA</span>
+          <span className={'card-value'}>
+            {props.value} {props.measurement}
+          </span>
+        </div>
+        <div className='card-bordered' />
+        <div className='card-row'>
+          <span>RU</span> <div>{props.ru}</div>
+        </div>
+        <div className='card-bordered' />
+        <div className='card-row'>
+          <span>QZ</span>
+          <div>{props.kz}</div>
+        </div>
       </div>
     </div>
   )
 }
 
-const setIndexTimeOut = (index) => {
+const setIndexTimeOut = (index, length) => {
   switch (index) {
     case 1:
       return 3
@@ -60,11 +62,11 @@ const setIndexTimeOut = (index) => {
     case 13:
       return 39
     case 14:
-      return 48
+      return length === 15 || length === 16 ? 45 : length === 14 ? 42 : 48
     case 15:
       return 42
     case 16:
-      return 51
+      return length === 16 ? 48 : 51
     case 17:
       return 45
     default:
