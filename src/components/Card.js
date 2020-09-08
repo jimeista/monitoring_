@@ -50,11 +50,11 @@ const setIndexTimeOut = (index, length) => {
     case 7:
       return 21
     case 8:
-      return 30
+      return length === 9 || length === 10 ? 27 : length === 8 ? 24 : 30
     case 9:
       return 24
     case 10:
-      return 33
+      return length === 10 ? 30 : 33
     case 11:
       return 27
     case 12:
