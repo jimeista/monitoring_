@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 export const Card = (props) => {
-  const [classname, setClassName] = useState({})
+  const [classname, setClassName] = useState('')
 
   useEffect(() => {
     const timeout = setIndexTimeOut(props.index, props.length)

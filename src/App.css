@@ -251,8 +251,9 @@
 .active #style_img44,
 .active #style_img61,
 .active #style_img78,
-.active #style_img195,
-.active #style_img112 {
+.active #style_img95,
+.active #style_img112,
+.active #style_img129 {
   background-image: url('./assets/icon/3.svg');
 }
 
@@ -306,14 +307,14 @@
 .active #style_img126 {
   background-image: url('./assets/icon/8.svg');
 }
-.active #style_img7,
-.active #style_img24,
-.active #style_img41,
-.active #style_img58,
-.active #style_img75,
-.active #style_img92,
-.active #style_img109,
-.active #style_img126 {
+.active #style_img6,
+.active #style_img23,
+.active #style_img40,
+.active #style_img57,
+.active #style_img74,
+.active #style_img91,
+.active #style_img108,
+.active #style_img125 {
   background-image: url('./assets/icon/9.svg');
 }
 .active #style_img8,
@@ -339,7 +340,7 @@
 .active #style_img5,
 .active #style_img22,
 .active #style_img39,
-.active #style_img59,
+.active #style_img56,
 .active #style_img73,
 .active #style_img90,
 .active #style_img107,
@@ -360,17 +361,17 @@
 .active #style_img26,
 .active #style_img43,
 .active #style_img60,
-.active #style_img76,
-.active #style_img93,
-.active #style_img110,
-.active #style_img127 {
+.active #style_img77,
+.active #style_img94,
+.active #style_img111,
+.active #style_img128 {
   background-image: url('./assets/icon/14.svg');
 }
 /*15*/
 .active #style_img16,
 .active #style_img33,
 .active #style_img50,
-.active #style_img67,
+.active #style_img76,
 .active #style_img84,
 .active #style_img101,
 .active #style_img118,
@@ -382,10 +383,10 @@
 .active #style_img34,
 .active #style_img51,
 .active #style_img68,
-.active #style_img77,
-.active #style_img94,
-.active #style_img111,
-.active #style_img128 {
+.active #style_img85,
+.active #style_img102,
+.active #style_img119,
+.active #style_img136 {
   background-image: url('./assets/icon/16.svg');
 }
 /*17*/
