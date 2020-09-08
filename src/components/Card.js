@@ -8,6 +8,8 @@ export const Card = (props) => {
     setTimeout(() => {
       setClassName('active')
     }, [timeout * 1000])
+
+    return () => setClassName('')
   }, [])
 
   return (

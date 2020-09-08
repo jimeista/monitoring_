@@ -22,16 +22,12 @@ export const Home = () => {
   }, [])
 
   useEffect(() => {
-    if (!state.loading && sliderRef) {
-      let timer = 0
-      state.data.map((i, index) => {
-        const arr = i.blocks.filter((i) => i['is-visible'])
-        timer = timer + arr.length * 3000 + 2000
-
-        timeout(sliderRef, timer)
-      })
+    if (sliderRef) {
+      timeout(state, sliderRef, setState)
     }
-  }, [sliderRef, state.loading, state.data])
+
+    return () => timeout(state, sliderRef, setState)
+  }, [sliderRef, state, setState])
 
   return (
     <div className='home'>
@@ -44,7 +40,7 @@ export const Home = () => {
                 <HomeHero
                   data={{ date: item['last-edit'], title: item.district }}
                 />
-                {!state.loading && <CardPanel blocks={item.blocks} />}
+                <CardPanel blocks={item.blocks} />
               </div>
             )
           })}
@@ -65,9 +61,25 @@ const settings = {
   className: 'Body_card_wrapper',
 }
 
-const timeout = (ref, timer) => {
-  setTimeout(() => {
-    console.log(timer)
-    ref.current.slickNext()
-  }, timer)
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds))
+}
+
+const timeout = (state, ref, setState) => {
+  let timer = 0
+  state.data &&
+    state.data.map(async (i, index) => {
+      const arr = i.blocks.filter((i) => i['is-visible'])
+      timer = timer + arr.length * 3000 + 2000
+
+      setTimeout(() => {
+        ref.current.slickNext()
+      }, timer)
+
+      await sleep(timer)
+      if (index === 7) {
+        setState({ loading: true })
+        setState(state)
+      }
+    })
 }
