@@ -114,8 +114,9 @@
   background-color: #334163;
   color: #fff;
 }
-.Body_card_wrapper .slick-list .slick-track .slick-slide,
-.Body_card_wrapper .slick-list .slick-track {
+.Body_card_wrapper  .slick-slide > div,
+.Body_card_wrapper  .slick-slide,
+.Body_card_wrapper .slick-track {
   height: 100%;
 }
 .CardPanel_style {
