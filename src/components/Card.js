@@ -13,10 +13,8 @@ export const Card = (props) => {
   }, [])
 
   return (
-    <div
-      className={`${classname} card card_style_main`}
-      id={'style_img' + props.cardId}
-    >
+    <div className={`${classname} card card_style_main`}>
+      <div id={'style_img' + props.cardId} className='img_p' />
       <div id={props.cardId}>
         <div className='card-row'>
           <span className='text_data_style'>DATA</span>
