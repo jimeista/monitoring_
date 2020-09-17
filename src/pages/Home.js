@@ -52,6 +52,7 @@ export const Home = () => {
 }
 
 const settings = {
+  fade: true,
   slidesToShow: 1,
   lazyLoad: true,
   speed: 500,
@@ -68,7 +69,7 @@ const timeout = (state, ref, setState) => {
   state.data &&
     state.data.map(async (i, index) => {
       const arr = i.blocks.filter((i) => i['is-visible'])
-      const delay = arr.length < 13 ? (arr.length <= 6 ? 4000 : 5000) : 6000
+      const delay = arr.length < 13 ? (arr.length <= 6 ? 6500 : 7500) : 8500
       timer = timer + arr.length * 3000 + delay
 
       if (index !== 7) {

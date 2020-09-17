@@ -223,7 +223,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background-size: 50vh;
+  background-size: 49vh;
   background-repeat: no-repeat;
   top: 0;
   right: 0;
@@ -418,45 +418,4 @@
 .active.card #style_img115,
 .active.card #style_img132 {
   background-image: url('./assets/icon/13.svg');
-}
-/*------Анимация --------------------------------*/
-.active.card.card_style_main .card-value {
-  color: #ff506c;
-}
-
-.active.card .img_p {
-  animation-name: slideLeft;
-  -webkit-animation-name: slideLeft;
-
-  /* animation-duration: 7s;*/
-  -webkit-animation-duration: 2.7s;
-
-  animation-timing-function: linear;
-  -webkit-animation-timing-function: linear;
-
-  visibility: visible !important;
-}
-
-@keyframes slideLeft {
-  0% {
-    left: 50%;
-    opacity: 1;
-  }
-
-  100% {
-    left: 0;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes slideLeft {
-  0% {
-    left: 50%;
-    opacity: 0.1;
-  }
-
-  100% {
-    left: 0;
-    opacity: 1;
-  }
 }
