@@ -111,8 +111,8 @@
   font-family: 'Astana Pro-Regular', serif;
 }
 
-.Body_card_wrapper  .slick-slide > div,
-.Body_card_wrapper  .slick-slide,
+.Body_card_wrapper .slick-slide > div,
+.Body_card_wrapper .slick-slide,
 .Body_card_wrapper .slick-track {
   height: 100%;
 }
@@ -207,20 +207,19 @@
   font-size: 2.5em;
 }
 
-.active.card.card_style_main{
+.active.card.card_style_main {
   outline: 100px solid #ffffff00;
-/*  border: 1px solid #ffffff00;*/
+  /*  border: 1px solid #ffffff00;*/
 
   margin: 0 0 5px 0;
 
-position: relative;
-overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-z-index: 999;
+  z-index: 999;
   transition: background 1s ease-in;
-
 }
-.img_p{
+.img_p {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -228,14 +227,21 @@ z-index: 999;
   background-repeat: no-repeat;
   top: 0;
   right: 0;
-  left: 0;
+  /* left: 0;*/
   z-index: 10;
   bottom: 0;
 
-background-position: top right;
+  background-position: top right;
 }
-.active {
 
+.active.card .img_p:before {
+  opacity: 0.3;
+}
+.active.card .img_p:after {
+  opacity: 1;
+}
+
+.active {
   background-color: #334163;
   color: #fff;
 }
@@ -248,7 +254,6 @@ background-position: top right;
 .active.card #style_img103,
 .active.card #style_img120 {
   background-image: url('./assets/icon/1.svg');
-
 }
 .active.card #style_img2,
 .active.card #style_img19,
@@ -413,10 +418,45 @@ background-position: top right;
 .active.card #style_img115,
 .active.card #style_img132 {
   background-image: url('./assets/icon/13.svg');
-
 }
-
+/*------Анимация --------------------------------*/
 .active.card.card_style_main .card-value {
-  color: #FF506C;
+  color: #ff506c;
 }
 
+.active.card .img_p {
+  animation-name: slideLeft;
+  -webkit-animation-name: slideLeft;
+
+  /* animation-duration: 7s;*/
+  -webkit-animation-duration: 2.7s;
+
+  animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+
+  visibility: visible !important;
+}
+
+@keyframes slideLeft {
+  0% {
+    left: 50%;
+    opacity: 1;
+  }
+
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes slideLeft {
+  0% {
+    left: 50%;
+    opacity: 0.1;
+  }
+
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
