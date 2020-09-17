@@ -28,9 +28,8 @@ export const CardPanel = ({ blocks }) => {
 }
 
 const settings = {
-  infinite: true,
   autoplay: true,
-  autoplaySpeed: 18500,
+  autoplaySpeed: 20000,
   slidesToScroll: 3,
   rows: 2,
   slidesToShow: 3,

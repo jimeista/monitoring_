@@ -12,30 +12,30 @@ export const Card = (props) => {
     return () => setClassName('')
   }, [])
 
-
   return (
-
-        <div className={`${classname} card card_style_main`} id={'style_img' + props.cardId}>
-          <div id={props.cardId}>
-            <div className='card-row'>
-              <span className='text_data_style'>DATA</span>
-              <span className={'card-value'}>
+    <div
+      className={`${classname} card card_style_main`}
+      id={'style_img' + props.cardId}
+    >
+      <div id={props.cardId}>
+        <div className='card-row'>
+          <span className='text_data_style'>DATA</span>
+          <span className={'card-value'}>
             {props.value} {props.measurement}
           </span>
-            </div>
-            <div className='card-bordered'/>
-            <div className='card-row'>
-              <span>RU</span>
-              <div>{props.ru}</div>
-            </div>
-            <div className='card-bordered'/>
-            <div className='card-row'>
-              <span>QZ</span>
-              <div>{props.kz}</div>
-            </div>
-          </div>
         </div>
-
+        <div className='card-bordered' />
+        <div className='card-row'>
+          <span>RU</span>
+          <div>{props.ru}</div>
+        </div>
+        <div className='card-bordered' />
+        <div className='card-row'>
+          <span>QZ</span>
+          <div>{props.kz}</div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -54,27 +54,27 @@ const setIndexTimeOut = (index, length) => {
     case 6:
       return 18
     case 7:
-      return 21
+      return 23
     case 8:
-      return length === 9 || length === 10 ? 27 : length === 8 ? 24 : 30
+      return length === 9 || length === 10 ? 29 : length === 8 ? 26 : 32
     case 9:
-      return 24
+      return 26
     case 10:
-      return length === 10 ? 30 : 33
+      return length === 10 ? 32 : 35
     case 11:
-      return 27
+      return 29
     case 12:
-      return 36
+      return 38
     case 13:
-      return 39
+      return 43
     case 14:
-      return length === 15 || length === 16 ? 45 : length === 14 ? 42 : 48
+      return length === 15 || length === 16 ? 49 : length === 14 ? 46 : 52
     case 15:
-      return 42
+      return 46
     case 16:
-      return length === 16 ? 48 : 51
+      return length === 16 ? 52 : 55
     case 17:
-      return 45
+      return 49
     default:
       return null
   }

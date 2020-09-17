@@ -15,6 +15,7 @@ export const Home = () => {
       .get(`/sc-districts/api/info-blocks`)
       .then((res) => {
         if (res.status === 200 && res.data.length > 0) {
+          setState({ loading: true })
           setState({ data: res.data, loading: false })
         }
       })
@@ -51,9 +52,6 @@ export const Home = () => {
 }
 
 const settings = {
-  // autoplay: true,
-  // autoplaySpeed: 53000,
-  infinite: true,
   slidesToShow: 1,
   lazyLoad: true,
   speed: 500,
@@ -70,11 +68,14 @@ const timeout = (state, ref, setState) => {
   state.data &&
     state.data.map(async (i, index) => {
       const arr = i.blocks.filter((i) => i['is-visible'])
-      timer = timer + arr.length * 3000 + 2000
+      const delay = arr.length < 13 ? (arr.length <= 6 ? 4000 : 5000) : 6000
+      timer = timer + arr.length * 3000 + delay
 
-      setTimeout(() => {
-        ref.current.slickNext()
-      }, timer)
+      if (index !== 7) {
+        setTimeout(() => {
+          ref.current.slickNext()
+        }, timer)
+      }
 
       await sleep(timer)
       if (index === 7) {
