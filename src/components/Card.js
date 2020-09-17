@@ -12,26 +12,30 @@ export const Card = (props) => {
     return () => setClassName('')
   }, [])
 
+
   return (
-    <div className={`${classname} card card_style_main`}>
-      <div id={props.id}>
-        <div className='card-row'>
-          <span className='text_data_style'>DATA</span>
-          <span className={'card-value'}>
+
+        <div className={`${classname} card card_style_main`} id={'style_img' + props.cardId}>
+          <div id={props.cardId}>
+            <div className='card-row'>
+              <span className='text_data_style'>DATA</span>
+              <span className={'card-value'}>
             {props.value} {props.measurement}
           </span>
+            </div>
+            <div className='card-bordered'/>
+            <div className='card-row'>
+              <span>RU</span>
+              <div>{props.ru}</div>
+            </div>
+            <div className='card-bordered'/>
+            <div className='card-row'>
+              <span>QZ</span>
+              <div>{props.kz}</div>
+            </div>
+          </div>
         </div>
-        <div className='card-bordered' />
-        <div className='card-row'>
-          <span>RU</span> <div>{props.ru}</div>
-        </div>
-        <div className='card-bordered' />
-        <div className='card-row'>
-          <span>QZ</span>
-          <div>{props.kz}</div>
-        </div>
-      </div>
-    </div>
+
   )
 }
 

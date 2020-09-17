@@ -93,6 +93,7 @@
   font-style: normal;
   font-weight: bold;
   color: #ed3d5a;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .card-row span:first-child {
@@ -109,13 +110,9 @@
   padding-top: 25px !important;
   font-family: 'Astana Pro-Regular', serif;
 }
-.active {
-  transition: background 1s ease-out;
-  background-color: #334163;
-  color: #fff;
-}
-.Body_card_wrapper  .slick-slide > div,
-.Body_card_wrapper  .slick-slide,
+
+.Body_card_wrapper .slick-slide > div,
+.Body_card_wrapper .slick-slide,
 .Body_card_wrapper .slick-track {
   height: 100%;
 }
@@ -210,198 +207,196 @@
   font-size: 2.5em;
 }
 
-.card_style_main > div {
-  /* background-image: url("./assets/icon/игрушка.svg"),
-   url("./assets/icon/радуга.svg");
-
-   background-repeat: no-repeat;
-   background-position: 94% 13%, 100% -10%;
-   background-size: 25%, 50%;*/
+.active.card.card_style_main {
   outline: 100px solid #ffffff00;
-  border: 1px solid #ffffff00;
+  /*  border: 1px solid #ffffff00;*/
   background-repeat: no-repeat;
-  background-size: auto 90%;
 
   margin: 0 0 5px 0;
   z-index: 10;
-  background-position: 100% -13%;
+  background-size: 126% 112%;
+  background-position-x: 16%;
 }
-.active #style_img1,
-.active #style_img18,
-.active #style_img35,
-.active #style_img52,
-.active #style_img69,
-.active #style_img86,
-.active #style_img103,
-.active #style_img120 {
+.active {
+  transition: background 1s ease-out;
+  background-color: #334163;
+  color: #fff;
+}
+.active.card.card_style_main #style_img1,
+.active.card.card_style_main #style_img18,
+.active.card.card_style_main #style_img35,
+.active.card.card_style_main #style_img52,
+.active.card.card_style_main #style_img69,
+.active.card.card_style_main #style_img86,
+.active.card.card_style_main #style_img103,
+.active.card.card_style_main #style_img120 {
   background-image: url('./assets/icon/1.svg');
-  background-position: 100% -13%;
 }
-.active #style_img2,
-.active #style_img19,
-.active #style_img36,
-.active #style_img53,
-.active #style_img70,
-.active #style_img87,
-.active #style_img104,
-.active #style_img121 {
+.active#style_img2,
+.active#style_img19,
+.active#style_img36,
+.active#style_img53,
+.active#style_img70,
+.active#style_img87,
+.active#style_img104,
+.active#style_img121 {
   background-image: url('./assets/icon/2.svg');
 }
-.active #style_img10,
-.active #style_img27,
-.active #style_img44,
-.active #style_img61,
-.active #style_img78,
-.active #style_img95,
-.active #style_img112,
-.active #style_img129 {
+.active#style_img10,
+.active#style_img27,
+.active#style_img44,
+.active#style_img61,
+.active#style_img78,
+.active#style_img95,
+.active#style_img112,
+.active#style_img129 {
   background-image: url('./assets/icon/3.svg');
 }
 
-.active #style_img3,
-.active #style_img20,
-.active #style_img37,
-.active #style_img54,
-.active #style_img71,
-.active #style_img88,
-.active #style_img105,
-.active #style_img122 {
+.active#style_img3,
+.active#style_img20,
+.active#style_img37,
+.active#style_img54,
+.active#style_img71,
+.active#style_img88,
+.active#style_img105,
+.active#style_img122 {
   background-image: url('./assets/icon/4.svg');
 }
-.active #style_img15,
-.active #style_img32,
-.active #style_img49,
-.active #style_img66,
-.active #style_img83,
-.active #style_img100,
-.active #style_img117,
-.active #style_img134 {
+.active#style_img15,
+.active#style_img32,
+.active#style_img49,
+.active#style_img66,
+.active#style_img83,
+.active#style_img100,
+.active#style_img117,
+.active#style_img134 {
   background-image: url('./assets/icon/5.svg');
 }
-.active #style_img11,
-.active #style_img28,
-.active #style_img45,
-.active #style_img62,
-.active #style_img79,
-.active #style_img96,
-.active #style_img113,
-.active #style_img130 {
+.active#style_img11,
+.active#style_img28,
+.active#style_img45,
+.active#style_img62,
+.active#style_img79,
+.active#style_img96,
+.active#style_img113,
+.active#style_img130 {
   background-image: url('./assets/icon/6.svg');
 }
-.active #style_img12,
-.active #style_img29,
-.active #style_img46,
-.active #style_img63,
-.active #style_img80,
-.active #style_img97,
-.active #style_img114,
-.active #style_img131 {
+.active#style_img12,
+.active#style_img29,
+.active#style_img46,
+.active#style_img63,
+.active#style_img80,
+.active#style_img97,
+.active#style_img114,
+.active#style_img131 {
   background-image: url('./assets/icon/7.svg');
 }
-.active #style_img7,
-.active #style_img24,
-.active #style_img41,
-.active #style_img58,
-.active #style_img75,
-.active #style_img92,
-.active #style_img109,
-.active #style_img126 {
+.active#style_img7,
+.active#style_img24,
+.active#style_img41,
+.active#style_img58,
+.active#style_img75,
+.active#style_img92,
+.active#style_img109,
+.active#style_img126 {
   background-image: url('./assets/icon/8.svg');
 }
-.active #style_img6,
-.active #style_img23,
-.active #style_img40,
-.active #style_img57,
-.active #style_img74,
-.active #style_img91,
-.active #style_img108,
-.active #style_img125 {
+.active#style_img6,
+.active#style_img23,
+.active#style_img40,
+.active#style_img57,
+.active#style_img74,
+.active#style_img91,
+.active#style_img108,
+.active#style_img125 {
   background-image: url('./assets/icon/9.svg');
 }
-.active #style_img8,
-.active #style_img25,
-.active #style_img42,
-.active #style_img59,
-.active #style_img76,
-.active #style_img93,
-.active #style_img110,
-.active #style_img127 {
+.active#style_img8,
+.active#style_img25,
+.active#style_img42,
+.active#style_img59,
+.active#style_img76,
+.active#style_img93,
+.active#style_img110,
+.active#style_img127 {
   background-image: url('./assets/icon/10.svg');
 }
-.active #style_img4,
-.active #style_img21,
-.active #style_img38,
-.active #style_img55,
-.active #style_img72,
-.active #style_img89,
-.active #style_img106,
-.active #style_img123 {
+.active#style_img4,
+.active#style_img21,
+.active#style_img38,
+.active#style_img55,
+.active#style_img72,
+.active#style_img89,
+.active#style_img106,
+.active#style_img123 {
   background-image: url('./assets/icon/11.svg');
 }
-.active #style_img5,
-.active #style_img22,
-.active #style_img39,
-.active #style_img56,
-.active #style_img73,
-.active #style_img90,
-.active #style_img107,
-.active #style_img124 {
+.active#style_img5,
+.active#style_img22,
+.active#style_img39,
+.active#style_img56,
+.active#style_img73,
+.active#style_img90,
+.active#style_img107,
+.active#style_img124 {
   background-image: url('./assets/icon/12.svg');
 }
-.active #style_img14,
-.active #style_img31,
-.active #style_img48,
-.active #style_img65,
-.active #style_img82,
-.active #style_img99,
-.active #style_img116,
-.active #style_img133 {
+.active#style_img14,
+.active#style_img31,
+.active#style_img48,
+.active#style_img65,
+.active#style_img82,
+.active#style_img99,
+.active#style_img116,
+.active#style_img133 {
   background-image: url('./assets/icon/13.svg');
 }
-.active #style_img9,
-.active #style_img26,
-.active #style_img43,
-.active #style_img60,
-.active #style_img77,
-.active #style_img94,
-.active #style_img111,
-.active #style_img128 {
+.active#style_img9,
+.active#style_img26,
+.active#style_img43,
+.active#style_img60,
+.active#style_img77,
+.active#style_img94,
+.active#style_img111,
+.active#style_img128 {
   background-image: url('./assets/icon/14.svg');
 }
 /*15*/
-.active #style_img16,
-.active #style_img33,
-.active #style_img50,
-.active #style_img76,
-.active #style_img84,
-.active #style_img101,
-.active #style_img118,
-.active #style_img135 {
+.active#style_img16,
+.active#style_img33,
+.active#style_img50,
+.active#style_img76,
+.active#style_img84,
+.active#style_img101,
+.active#style_img118,
+.active#style_img135 {
   background-image: url('./assets/icon/15.svg');
 }
 /*16*/
-.active #style_img17,
-.active #style_img34,
-.active #style_img51,
-.active #style_img68,
-.active #style_img85,
-.active #style_img102,
-.active #style_img119,
-.active #style_img136 {
+.active#style_img17,
+.active#style_img34,
+.active#style_img51,
+.active#style_img68,
+.active#style_img85,
+.active#style_img102,
+.active#style_img119,
+.active#style_img136 {
   background-image: url('./assets/icon/16.svg');
 }
 /*17*/
-.active #style_img13,
-.active #style_img30,
-.active #style_img47,
-.active #style_img64,
-.active #style_img81,
-.active #style_img98,
-.active #style_img115,
-.active #style_img132 {
+.active#style_img13,
+.active#style_img30,
+.active#style_img47,
+.active#style_img64,
+.active#style_img81,
+.active#style_img98,
+.active#style_img115,
+.active#style_img132 {
   background-image: url('./assets/icon/13.svg');
 }
 
 .active.card.card_style_main .card-value {
-  color: #d51e3c;
+  color: #ff506c;
 }
