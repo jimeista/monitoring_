@@ -15,7 +15,6 @@ export const Home = () => {
       .get(`/sc-districts/api/info-blocks`)
       .then((res) => {
         if (res.status === 200 && res.data.length > 0) {
-          setState({ loading: true })
           setState({ data: res.data, loading: false })
         }
       })
@@ -80,8 +79,7 @@ const timeout = (state, ref, setState) => {
 
       await sleep(timer)
       if (index === 7) {
-        setState({ loading: true })
-        setState(state)
+        return document.location.reload()
       }
     })
 }

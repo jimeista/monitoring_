@@ -10,7 +10,7 @@ export const Card = (props) => {
     }, [timeout * 1000])
 
     return () => setClassName('')
-  }, [])
+  }, [props.index, props.length])
 
   return (
     <div className={`${classname} card card_style_main`}>
