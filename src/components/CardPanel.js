@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 
 import { Card } from './Card'
 
-export const CardPanel = ({ blocks }) => {
+const CardPanel = ({ blocks }) => {
   const cards = useMemo(() => {
     const arr = blocks.filter((i) => i['is-visible'])
     return arr.map((item, index) => {
@@ -26,6 +26,8 @@ export const CardPanel = ({ blocks }) => {
 
   return <Slider {...settings}> {cards} </Slider>
 }
+
+export default React.memo(CardPanel)
 
 const settings = {
   autoplay: true,

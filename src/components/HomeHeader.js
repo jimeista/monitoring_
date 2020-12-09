@@ -1,9 +1,10 @@
 import React from 'react'
+
 import logo1 from '../assets/logo1.svg'
 import logo2 from '../assets/logo2.svg'
 import logo3 from '../assets/logo3.svg'
 
-export const HomeHeader = () => {
+const HomeHeader = () => {
   return (
     <div className='home-header'>
       <>
@@ -18,3 +19,5 @@ export const HomeHeader = () => {
     </div>
   )
 }
+
+export default React.memo(HomeHeader)

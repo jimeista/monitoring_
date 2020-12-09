@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-export const Card = (props) => {
+const Card = (props) => {
   const [classname, setClassName] = useState('')
 
   useEffect(() => {
@@ -36,6 +36,8 @@ export const Card = (props) => {
     </div>
   )
 }
+
+export default React.memo(Card)
 
 const setIndexTimeOut = (index, length) => {
   switch (index) {
