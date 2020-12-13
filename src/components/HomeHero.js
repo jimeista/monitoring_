@@ -9,7 +9,7 @@ const HomeHero = (props) => {
   return (
     <div className='home-hero'>
       <div className='home-hero_inner'>
-        <div className='home-hero-date_num'>{moment_}</div>
+        <div className='home-hero-date_num'>{`${moment_}`}</div>
       </div>
       <div className='home-hero-title'>{ob.value}</div>
     </div>
