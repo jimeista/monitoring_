@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons'
 
 import Card from './Card'
@@ -6,6 +6,13 @@ import Card from './Card'
 const CardPanel = ({ blocks, district }) => {
   const [classname, setClassname] = useState('')
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    return () => {
+      setClassname('')
+      setCount(0)
+    }
+  }, [])
 
   const slides = useMemo(() => {
     let arr = fillCard(blocks, district)
@@ -24,18 +31,35 @@ const CardPanel = ({ blocks, district }) => {
     if (count - 1 >= 0) {
       setCount(count - 1)
       setClassname(`prev${count - 1}`)
+    } else {
+      if (blocks.length > 12) {
+        setCount(2)
+        setClassname(`next2`)
+      }
+      if (blocks.length > 6 && blocks.length <= 12) {
+        setCount(1)
+        setClassname('next1')
+      }
     }
   }
 
   const next = (count) => {
     if (blocks.length > 12) {
-      setCount(count + 1)
-      setClassname(`next${count + 1}`)
+      if (count < 2) {
+        setCount(count + 1)
+        setClassname(`next${count + 1}`)
+      } else {
+        setCount(0)
+        setClassname('prev0')
+      }
     }
     if (blocks.length > 6 && blocks.length <= 12) {
       if (count + 1 < 2) {
         setCount(count + 1)
         setClassname(`next${count + 1}`)
+      } else {
+        setCount(0)
+        setClassname('prev0')
       }
     }
   }
@@ -46,16 +70,16 @@ const CardPanel = ({ blocks, district }) => {
       <LeftCircleFilled
         className={'nav_icon left'}
         onClick={() => prev(count)}
-        disabled={count === 0}
+        // disabled={count === 0}
       />
       <RightCircleFilled
         className={'nav_icon right'}
         onClick={() => next(count)}
-        disabled={
-          (blocks.length > 12 && count === 2) ||
-          blocks.length < 7 ||
-          (blocks.length < 13 && count === 1)
-        }
+        // disabled={
+        //   (blocks.length > 12 && count === 2) ||
+        //   blocks.length < 7 ||
+        //   (blocks.length < 13 && count === 1)
+        // }
       />
     </div>
   )
