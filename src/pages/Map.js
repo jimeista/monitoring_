@@ -12,8 +12,6 @@ const Map = () => {
     return () => localStorage.removeItem('block')
   }, [])
 
-  console.log(data)
-
   return <div>Map ...</div>
 }
 

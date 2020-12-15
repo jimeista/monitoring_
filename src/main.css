@@ -288,7 +288,7 @@
 .cardpanel_slide {
   width: 100%;
   display: flex;
-  transition: height 0.2s ease-out;
+  transition: height 2s ease-out;
 }
 
 .nav_icon {

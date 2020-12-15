@@ -1,13 +1,1089 @@
 body {
+ margin: 0;
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+ font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #334163;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+.RoadWorks_main {
+ width: 100%;
+ height: 100vh;
+ -moz-user-select: none;
+ -khtml-user-select: none;
+ user-select: none;
+ background-color: gray;
+}
+body {
+ background: inherit;
+ color: white;
+}
+.RoadWorks_wrapper {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+ height: 100%;
+ padding-right: 5px;
+}
+
+.RoadWorks_filter {
+}
+
+.RoadWorks_filter {
+ width: 100%;
+ height: max-content;
+}
+
+.RoadWorks_filter_filter {
+ width: 100%;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: flex-start;
+ height: max-content;
+ flex-wrap: wrap;
+}
+
+.RoadWorks_filter_item {
+ margin-right: 5px;
+ margin-bottom: 5px;
+}
+
+.RoadWorks_title_wrap {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ width: 100%;
+ height: max-content;
+}
+
+.RoadWorks_title {
+ font-size: 22px;
+ align-self: flex-start;
+ color: white;
+
+ height: 35px;
+}
+
+.RoadWorks_body {
+ border: 1px solid white;
+ padding: 5px;
+ height: 100%;
+}
+
+.RoadWorks_body.map_block {
+ border: 1px solid white;
+ position: relative;
+}
+
+.RoadWorks_body.table_block.active,
+.RoadWorks_body.map_block.active {
+ display: block;
+ visibility: visible;
+}
+
+.RoadWorks_body_chart_wrap.active {
+ display: flex;
+ visibility: visible;
+ height: 100%;
+}
+
+.CheckBoxMenuRadio_style {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ padding: 5px 10px;
+}
+
+.CheckBoxMenuRadio_style .ant-radio-inner,
+.Ant_Drop_Block_Style_Checkbox .ant-checkbox-inner,
+.Ant_Drop_Block_Style_item_list .ant-checkbox-inner {
+ position: relative;
+ top: 0;
+ left: 0;
+ display: block;
+ width: 16px;
+ height: 16px;
+ background-color: rgba(255, 255, 255, 0.7);
+ border-color: #ffffff;
+ border-style: solid;
+ border-width: 1px;
+ border-radius: 2px;
+ -webkit-transition: all 0.3s;
+ transition: all 0.3s;
+}
+
+.CheckBoxMenuRadio_style .ant-radio:hover .ant-radio-inner,
+.Ant_Drop_Block_Style_Checkbox .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.Ant_Drop_Block_Style_item_list
+ .ant-checkbox-wrapper:hover
+ .ant-checkbox-inner {
+ border-color: white;
+}
+
+.Ant_Drop_Block_Style_Checkbox .ant-checkbox-checked .ant-checkbox-inner,
+.Ant_Drop_Block_Style_item_list .ant-checkbox-checked .ant-checkbox-inner {
+ background-color: #414e60;
+ border-color: white;
+}
+
+.Ant_Drop_Block_Style_Checkbox .ant-checkbox-checked .ant-checkbox-inner::after,
+.Ant_Drop_Block_Style_item_list
+ .ant-checkbox-checked
+ .ant-checkbox-inner::after {
+ display: none;
+}
+
+.ant-checkbox-checked::after {
+ border: 1px solid white;
+}
+
+.CheckBoxMenuRadio_style .ant-radio .ant-radio-inner::after {
+ top: 0;
+ left: 0;
+ border-color: white;
+ width: 14px;
+ height: 14px;
+ background-color: #414e60;
+
+ border-radius: 2px;
+}
+
+.CheckBoxMenuRadio_style .ant-radio-wrapper {
+ color: white;
+}
+
+.Ant_Drop_Block_Style_item.RoadWorks > div {
+ height: max-content !important;
+}
+
+.ant-checkbox-group-item.ant-checkbox-wrapper.ant-checkbox-wrapper-disabled
+ span {
+ color: rgba(0, 0, 0, 0.25);
+}
+
+.ant-radio-wrapper:hover .ant-radio,
+.ant-radio:hover .ant-radio-inner,
+.ant-radio-input:focus + .ant-radio-inner {
+ border-color: white;
+}
+
+.RoadWorks_filter {
+ height: max-content;
+}
+.RoadWorks_filter .ant_drop_menu {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ width: 220px;
+ border-radius: 2px;
+ color: white;
+ background: inherit;
+ border-color: rgba(255, 255, 255, 0.5);
+}
+
+.Ant_Drop_Block_Style > div:nth-child(2) {
+ height: 100%;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: space-between;
+}
+.Ant_Drop_Block_Style_Checkbox {
+ height: 300px;
+ overflow-y: scroll;
+}
+.ant-dropdown-menu {
+ background-color: #414e60 !important;
+}
+.Ant_Drop_Block_Style {
+ background-color: #414e60;
+ width: 220px;
+ border: 1px solid rgba(255, 255, 255, 0.5);
+ color: white;
+}
+
+.Ant_Drop_Block_Style_text {
+ color: white;
+}
+
+.Ant_Drop_Block_Style .ant-dropdown-menu-item:hover,
+.Ant_Drop_Block_Style .ant-dropdown-menu-submenu-title:hover {
+ background: rgba(255, 255, 255, 0.3);
+}
+
+.Ant_Drop_Block_Style .ant-dropdown-menu-item:last-child:hover,
+.Ant_Drop_Block_Style .ant-dropdown-menu-submenu-title:last-child:hover {
+ background: inherit;
+}
+
+.Ant_Drop_Block_Style_btn {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ width: 100%;
+}
+
+.default_btn_style {
+ padding: 5px 10px;
+ border: 1px solid rgba(255, 255, 255, 0.5);
+ margin: 0 5px;
+ color: white;
+ cursor: pointer;
+ border-radius: 2px;
+}
+
+.Ant_Drop_Block_Style .ant-dropdown-menu-item:last-child {
+ padding: 0 5px;
+ width: 100%;
+ margin: 5px 0;
+ cursor: inherit;
+}
+
+.default_btn_style:hover {
+ background: rgba(255, 255, 255, 0.3);
+}
+
+.default_btn_style:active {
+ background: inherit;
+ color: #0d0f13;
+}
+
+.non_pointer:hover {
+ cursor: inherit;
+ background: inherit;
+}
+
+.Ant_Drop_Block_Style_item_list .ant-checkbox-group-item {
+ color: white;
+}
+
+.Ant_Drop_Block_Style_item_list {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+}
+
+.Ant_Drop_Block_Style_input {
+ background: inherit;
+ width: 100%;
+}
+
+.Ant_Drop_Block_Style_input input {
+ background: inherit;
+ color: white;
+}
+
+.Ant_Drop_Block_Style_input svg {
+ fill: white;
+}
+
+.Ant_Drop_Block_Style_input.Ant_Drop_Block_Style_input:hover {
+ border-color: rgba(255, 255, 255, 0.5);
+}
+
+.Ant_Drop_Block_Style_input.ant-input-affix-wrapper:focus,
+.Ant_Drop_Block_Style_input.ant-input-affix-wrapper-focused {
+ box-shadow: none;
+ background: inherit;
+}
+
+.ant-dropdown-menu-item .ant-picker {
+ width: 100%;
+}
+
+.Ant_Drop_Block_Style_Checkbox_Group {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ width: 100%;
+}
+
+.Ant_Drop_Block_Style_Checkbox {
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ padding: 5px;
+}
+
+.ant-checkbox-group-item.ant-checkbox-wrapper {
+ width: 100%;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ margin: 2px 0;
+}
+
+.ant-checkbox-group-item.ant-checkbox-wrapper:hover {
+ background: rgba(255, 255, 255, 0.5);
+}
+
+.ant-checkbox-group-item > .ant-checkbox {
+ width: 15px;
+}
+
+.ant-checkbox-group-item > span:last-child {
+ width: calc(100% - 15px);
+ color: #ffffff;
+}
+
+.RoadWorks_body.table_block .ant-table {
+ color: white;
+ background: inherit;
+}
+
+.RoadWorks_body.table_block .ant-table-tbody > tr.ant-table-row:hover > td {
+ color: #414e60;
+ background: #ffffff80;
+}
+
+.RoadWorks_body.table_block .ant-table-thead > tr > th {
+ background: #414e60;
+ color: white;
+}
+
+.RoadWorks_body.table_block .ant-table-thead > tr > th,
+.RoadWorks_body.table_block .ant-table-tbody > tr > td,
+.RoadWorks_body.table_block .ant-table tfoot > tr > th,
+.RoadWorks_body.table_block .ant-table tfoot > tr > td {
+ padding: 5px;
+ text-align: center;
+}
+
+.RoadWorks_body.table_block .ant-pagination-prev .ant-pagination-item-link,
+.RoadWorks_body.table_block .ant-pagination-next .ant-pagination-item-link {
+ background-color: inherit;
+ border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.RoadWorks_body.table_block .ant-pagination-prev,
+.ant-pagination-next,
+.RoadWorks_body.table_block .ant-pagination-jump-prev,
+.RoadWorks_body.table_block .ant-pagination-jump-next {
+ min-width: 25px;
+ height: 25px;
+ color: rgba(0, 0, 0, 0.65);
+ line-height: 25px;
+}
+
+.RoadWorks_body.table_block .ant-pagination-item {
+ min-width: 25px;
+ height: 25px;
+ line-height: 25px;
+ background: inherit;
+}
+
+.RoadWorks_body.table_block .ant-pagination-item:hover {
+ border-color: rgba(255, 255, 255, 0.5);
+}
+
+.RoadWorks_body.table_block .ant-pagination-item-active {
+ font-weight: 500;
+ background: rgba(255, 255, 255, 0.5);
+ border-color: rgba(255, 255, 255, 1);
+ min-width: 25px;
+ height: 25px;
+ color: rgba(0, 0, 0, 0.65);
+ line-height: 25px;
+}
+
+.RoadWorks_body.table_block .ant-pagination-item:focus a,
+.RoadWorks_body.table_block .ant-pagination-item:hover a {
+ color: #414e60;
+}
+
+.RoadWorks_body.table_block .ant-pagination-item a,
+.RoadWorks_body.table_block .ant-pagination-item a {
+ color: white;
+}
+
+.RoadWorks_body.table_block .ant-pagination-item-active a {
+ color: #414e60;
+}
+
+.RoadWorks_body.table_block .ant-table-pagination-right {
+ align-self: center;
+}
+
+.RoadWorks_body.table_block .ant-table-wrapper,
+.RoadWorks_body.table_block .ant-spin-nested-loading {
+ height: 100%;
+}
+
+.RoadWorks_body.table_block .ant-spin-container {
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+ height: 100%;
+}
+
+.RoadWorks_filter_btn {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ width: 110px;
+ justify-content: space-around;
+}
+
+.RoadWorks_filter_btn_icon {
+ width: 25px;
+ height: 25px;
+}
+
+.RoadWorks_filter_btn_icon svg g,
+.RoadWorks_filter_btn_icon svg {
+ fill: rgba(255, 255, 255, 0.5);
+}
+
+.RoadWorks_filter_btn_icon.active svg g {
+ fill: lightgreen;
+}
+.WorkBlock svg g path {
+ fill: orange;
+}
+
+.input_filter_style.ant-input-affix-wrapper {
+ background-color: inherit;
+ margin: 0 5px;
+ width: 95%;
+}
+
+.input_filter_style .ant-input {
+ background: inherit;
+ color: white;
+}
+
+.input_filter_style.ant-input-affix-wrapper:hover {
+ border-color: white;
+ box-shadow: none;
+}
+
+.input_filter_style .anticon svg {
+ fill: white;
+}
+
+.svgIcon35 svg {
+ width: 15%;
+}
+
+.svgIcon45 svg {
+ width: 15%;
+}
+.svgIcon40 svg {
+ width: 12%;
+}
+
+.legendForMap_roadWorks {
+ position: absolute;
+ z-index: 999;
+ left: 10px;
+ top: 10px;
+ display: flex;
+ flex-direction: row;
+ width: 100%;
+ flex-wrap: wrap;
+}
+.legendForMap_wrap {
+ cursor: pointer;
+ display: flex;
+ flex-direction: row;
+ padding: 2px 5px;
+ width: max-content;
+ align-items: center;
+ text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+ background: #414e609c;
+ margin: 2px 5px;
+ border-radius: 2px;
+}
+.legendForMap_wrap:hover {
+ background: #414e60cf;
+}
+.legendForMap_wrap.active {
+ /* background: red; */
+ background: #414e60eb;
+}
+.legendForMap_wrap:active {
+ background: #414e60eb;
+ /* background: red; */
+}
+.legendForMap_color {
+ width: 15px;
+ height: 15px;
+ margin: 0 2px;
+ border: 1px solid #ffffff80;
+}
+.legendForMap_color.purple {
+ background: purple;
+}
+.legendForMap_color.blue {
+ background: #2722ef;
+}
+.legendForMap_color.red {
+ background: red;
+}
+.legendForMap_color.darkgreen {
+ background: darkgreen;
+}
+.legendForMap_color.cadetblue {
+ background: cadetblue;
+}
+.legendForMap_color.coral {
+ background: coral;
+}
+.legendForMap_color.cornflowerblue {
+ background: cornflowerblue;
+}
+.legendForMap_color.olive {
+ background: olive;
+}
+.legendForMap_color.grey {
+ background: #34384e;
+}
+
+.RoadAccident_filter_item_filter_buttons {
+ width: 220px;
+ height: 32px;
+}
+.RoadAccident_filter_item_filter_buttons button {
+ background: inherit;
+ height: 100%;
+ padding: 0;
+ border: none;
+}
+.CrossWork_style {
+ height: 32px;
+}
+
+.RoadWorks_filter_item_intersections {
+ height: 100%;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ width: max-content;
+ cursor: pointer;
+ border-radius: 8px;
+}
+.RoadWorks_filter_item_intersections > span {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: center;
+ padding: 0 10px;
+ text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+.RoadWorks_filter_item_intersections > span:first-child {
+ border-right: 1px solid white;
+ width: calc(100% - 40px);
+}
+.RoadWorks_filter_item_intersections > span:last-child {
+ width: 40px;
+ text-align: center;
+
+ color: #e29393;
+ font-weight: bold;
+ font-size: 22px;
+ border-radius: 0 8px 8px 0;
+}
+.Ant_Drop_Block_item.active {
+ background: #feffff33;
+}
+.CrossWork_style:hover .RoadWorks_filter_item_intersections {
+ background: #ffffff80;
+ border-color: #414e60;
+}
+.CrossWork_style:active .RoadWorks_filter_item_intersections {
+ background: inherit;
+ border-color: white;
+}
+.clear_filter {
+ width: 25px !important;
+ height: 25px !important;
+
+ cursor: pointer;
+}
+.clear_filter svg {
+ width: 25px;
+ height: 25px;
+}
+.clear_filter:hover svg path {
+ fill: black;
+}
+
+.RoadWorks_body.table_block td.ant-table-column-sort {
+ background: #ffffff33;
+}
+.RoadWorks_body.table_block .ant-table-column-sorters {
+ padding: 0;
+}
+
+::-webkit-scrollbar {
+ width: 5px;
+ height: 5px;
+ background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+ border-radius: 10px;
+ -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-button {
+ width: 0;
+ opacity: 0;
+}
+::-webkit-scrollbar-corner {
+ opacity: 0;
+}
+
+.RoadWorks_top_card_date_wrap {
+ width: 100%;
+ height: max-content;
+ align-items: center;
+}
+.RoadWorks_top_card_date {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ width: 100%;
+ height: max-content;
+ justify-content: space-between;
+}
+.RoadWorks_top_card_date > div {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+
+ width: 50%;
+ justify-content: space-around;
+ border: 1px solid white;
+ text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+.RoadWorks_top_card_date > div:first-child {
+ width: calc(50% - 5px);
+}
+.RoadWorks_top_card_date > div > span:first-child {
+ font-size: clamp(14px, 4vw, 22px);
+}
+.RoadWorks_top_card_date > div > span:last-child {
+ font-size: clamp(14px, 4vw, 24px);
+}
+.RoadWorks_body_chart_wrap.info_block {
+ border: none;
+}
+
+.RoadWorks_body_wrap {
+ width: 100%;
+ height: 100%;
+ flex-grow: 1;
+
+ overflow-y: scroll;
+}
+.info_block {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ width: 100%;
+ height: 100%;
+ flex-wrap: wrap;
+
+ justify-content: space-between;
+}
+.info_block > div {
+ width: 50%;
+ padding: 5px;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ height: 60px;
+ border: 1px solid white;
+ border-radius: 2px;
+ margin-bottom: 5px;
+}
+.info_block > div:nth-child(5),
+.info_block > div:nth-child(6) {
+ margin-bottom: 0;
+}
+.info_block > div:nth-child(2n + 1) {
+ max-width: calc(50% - 5px);
+ margin-right: 5px;
+}
+.RoadWorks_top_card svg {
+ height: 100%;
+ width: 15%;
+}
+.RoadWorks_top_card {
+ cursor: pointer;
+}
+.RoadWorks_top_card.active {
+ background: #414e60;
+}
+.RoadWorks_top_card.disable,
+.RoadWorks_top_card.disable svg g path,
+.RoadWorks_top_card.disable span {
+ opacity: 0.3;
+ fill: white;
+ cursor: default;
+}
+.RoadWorks_double_inner_text {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ width: 85%;
+ justify-content: space-between;
+ text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+.RoadWorks_double_inner_text > span:first-child {
+ font-size: clamp(12px, 2vw, 16px);
+ padding: 0 5px;
+}
+.RoadWorks_double_inner_text > span:last-child {
+ font-size: clamp(14px, 2vw, 32px);
+}
+.map_block {
+ padding: 5px;
+ width: 100%;
+ height: 100%;
+ display: flex;
+}
+.chartOff .chart_block,
+.mapOff .map_block,
+.tabOff .table_block {
+ display: none;
+}
+.chartOn .chart_block,
+.mapOn .map_block,
+.tabOn .table_block {
+ display: flex;
+ width: 100%;
+}
+.RoadWorks_body.chart_Bar {
+ width: 100%;
+ position: relative;
+}
+.RoadWorks_body.chart_Bar canvas {
+ max-height: calc(100% - 20px);
+ position: absolute;
+ top: 20px;
+ left: 0;
+}
+.table_block {
+ height: max-content;
+ overflow-x: scroll;
+}
+
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn {
+ display: grid;
+ grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+ grid-template-rows: max-content max-content minmax(50%, 1fr) minmax(50%, 1fr);
+ grid-gap: 5px;
+ width: 100%;
+ overflow-x: hidden;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn .chart_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn > .map_block {
+ grid-column: 2 / span 1;
+ grid-row: 1 / span 3;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOn .table_block {
+ grid-column: 1 / span 2;
+ grid-row: 4 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn {
+ display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: max-content max-content minmax(50%, 1fr) minmax(50%, 1fr);
+ grid-gap: 5px;
+ width: 100%;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn .info_block > div,
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .info_block > div,
+.RoadWorks_body_wrap.chartOff.mapOff.tabOff .info_block > div,
+.RoadWorks_body_wrap.chartOff.mapOn.tabOff .info_block > div {
+ height: 40px;
+ align-items: center;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn > .map_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOn .table_block {
+ grid-column: 1 / span 1;
+ grid-row: 4 / span 1;
+ height: max-content;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn {
+ display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: max-content max-content minmax(50%, 1fr);
+ grid-gap: 5px;
+ width: 100%;
+}
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .table_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+ height: max-content;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOff.tabOff {
+ display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: max-content max-content;
+ grid-gap: 5px;
+ width: 100%;
+}
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOff.mapOff.tabOn .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOn.mapOff.tabOff {
+ display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: max-content max-content 40vh;
+ grid-gap: 5px;
+ width: 100%;
+ overflow-x: hidden;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOff .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOff .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOff .chart_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOn.mapOn.tabOff {
+ display: grid;
+ grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+ grid-template-rows: max-content max-content minmax(50%, 1fr) minmax(50%, 1fr);
+ grid-gap: 5px;
+ width: 100%;
+ overflow-x: hidden;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOff .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOff .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOff .chart_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOn.tabOff > .map_block {
+ grid-column: 2 / span 1;
+ grid-row: 1 / span 3;
+}
+
+.RoadWorks_body_wrap.chartOn.mapOff.tabOn {
+ display: grid;
+ grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+ grid-template-rows: max-content max-content minmax(50%, 1fr) minmax(50%, 1fr);
+ grid-gap: 5px;
+ width: 100%;
+ overflow-x: hidden;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOn .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOn .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOn .chart_block {
+ grid-column: 2 / span 1;
+ grid-row: 1 / span 2;
+}
+.RoadWorks_body_wrap.chartOn.mapOff.tabOn .table_block {
+ grid-column: 1 / span 2;
+ grid-row: 3 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOn.tabOff {
+ display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: max-content max-content 1fr;
+ grid-gap: 5px;
+ width: 100%;
+ overflow-x: hidden;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOff .date_block {
+ grid-column: 1 / span 1;
+ grid-row: 1 / span 1;
+}
+.RoadWorks_body_wrap.chartOff.mapOn.tabOff .info_block {
+ grid-column: 1 / span 1;
+ grid-row: 2 / span 1;
+}
+
+.RoadWorks_body_wrap.chartOff.mapOn.tabOff > .map_block {
+ grid-column: 1 / span 1;
+ grid-row: 3 / span 1;
+}
+.RoadWorks_filter_item:last-child {
+ width: max-content;
+ position: relative;
+}
+.clear_filter {
+ position: absolute;
+ top: -10px;
+}
+.RoadWorks_filter_filter {
+ padding-right: 30px;
+}
+@media (max-width: 950px) {
+ .RoadWorks_body_wrap {
+  grid-template-rows: max-content max-content minmax(50%, 1fr) minmax(50%, 1fr) minmax(
+    50%,
+    1fr
+   ) !important;
+ }
+
+ .RoadWorks_body_wrap.chartOn.mapOff.tabOn .date_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOff .date_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOn .date_block {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOff.tabOn .info_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOff .info_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOn .info_block {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 1;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOff.tabOn .chart_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOff .chart_block,
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOn .chart_block {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 1;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOff.tabOn .table_block {
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 1;
+ }
+
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOff .map_block {
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 1;
+ }
+
+ .RoadWorks_body_wrap.chartOff.mapOn.tabOn .map_block {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 2;
+ }
+ .RoadWorks_body_wrap.chartOff.mapOn.tabOff .map_block {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 2;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOff .map_block {
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 2;
+ }
+
+ .RoadWorks_body_wrap.chartOff.mapOn.tabOn .table_block {
+  grid-column: 1 / span 2;
+  grid-row: 5 / span 1;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOn .map_block {
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 2;
+ }
+ .RoadWorks_body_wrap.chartOn.mapOn.tabOn .table_block {
+  grid-column: 1 / span 2;
+  grid-row: 6 / span 1;
+ }
+}
+@media (max-width: 900px) {
+ .RoadWorks_wrapper {
+  padding-left: 5px;
+ }
+}
+@media (max-width: 500px) {
+ .RoadWorks_filter_filter {
+  padding-right: 5px;
+  flex-direction: column;
+ }
+ .RoadWorks_filter_item,
+ .RoadWorks_filter .ant_drop_menu,
+ .Ant_Drop_Block_Style {
+  width: 100%;
+ }
+ .clear_filter {
+  position: inherit;
+  top: inherit;
+ }
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 550px) {
+}
+
+@media (max-width: 480px) {
 }
