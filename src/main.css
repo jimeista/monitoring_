@@ -234,16 +234,6 @@
   font-size: 2em;
   padding-top: 5px;
 }
-.card-row span:first-child {
-  display: flex;
-  align-items: flex-start;
-  font-size: 1em;
-  font-weight: normal;
-  margin-right: 30px;
-  padding-top: 10px;
-  justify-content: flex-start;
-  height: 100%;
-}
 
 .img_p {
   position: absolute;
@@ -280,56 +270,50 @@
 }
 
 .cardpanel {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  position: abosulte;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 .cardpanel_slide {
+  position: relative;
   width: 100%;
   display: flex;
-  transition: height 0.2s ease-out;
 }
 
-.nav_icon {
-  font-size: 40px;
-  opacity: 0.6;
+.cardpanel_slide > .left {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  left: 30px;
 }
 
-.nav_icon:hover {
+.cardpanel_slide > .right {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  right: 30px;
+}
+
+.cardpanel_slide > input {
+  opacity: 0;
+  z-index: 1000;
+}
+
+.icon {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+
+  /* opacity: 1; */
+  /* z-index: 10; */
+}
+
+.icon:hover {
   cursor: pointer;
   opacity: 1;
 }
-
-.left {
-  position: absolute;
-  top: 49vh;
-  left: 20px;
-  z-index: 1001;
-}
-.right {
-  position: absolute;
-  top: 49vh;
-  right: 20px;
-  z-index: 1001;
-}
-
-.prev0 {
-  transform: translate(0, 0);
-}
-
-.prev1 {
-  transform: translate(0, -80vh);
-}
-
-.next1 {
-  transform: translate(0, -80vh);
-}
-
-.next2 {
-  transform: translate(0, -160vh);
-}
-
 .carddouble {
   position: relative;
   height: 80vh;
