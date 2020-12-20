@@ -264,42 +264,84 @@
 
 .carousel-wrapper {
   position: relative;
+  overflow: hidden;
   box-sizing: border-box;
   height: 100%;
   width: 100%;
 }
 
 .cardpanel {
-  position: abosulte;
-  top: 0;
-  left: 0;
-  overflow: hidden;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.cardpanel > .left,
+.cardpanel > .right {
+  position: absolute;
+  cursor: pointer;
+  top: 20%;
+}
+
+.cardpanel > .left {
+  left: 30px;
+}
+
+.cardpanel > .right {
+  right: 30px;
+}
+
+.cardpanel > input,
+.cardpanel > a {
+  /* position: fixed; */
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cardpanel > input {
+  opacity: 0;
+  z-index: 1000;
+}
+
+.cardpanel > a {
+  background-color: #222;
+  opacity: 1;
+  z-index: 10;
+}
+
+.cardpanel > input:checked,
+.cardpanel > input:checked:hover + a {
+  background: #821134;
 }
 
 .cardpanel_slide {
   position: relative;
+  height: 100%;
   width: 100%;
   display: flex;
+  overflow: hidden;
+
+  transition: all 0.6s ease-in-out;
+
+  /* Let's enforce some hardware acceleration */
+  /* -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; */
 }
 
-.cardpanel_slide > .left {
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  left: 30px;
+.slide-control-1:checked ~ .cardpanel_slide {
+  transform: translateY(0%);
 }
-
-.cardpanel_slide > .right {
-  position: absolute;
-  cursor: pointer;
-  top: 50%;
-  right: 30px;
+.slide-control-2:checked ~ .cardpanel_slide {
+  transform: translateY(-100%);
 }
-
-.cardpanel_slide > input {
-  opacity: 0;
-  z-index: 1000;
+.slide-control-3:checked ~ .cardpanel_slide {
+  transform: translateY(-200%);
 }
+/* #slide-control-4:checked ~ .st-scroll {
+	transform: translateY(-300%);
+} */
 
 .icon {
   height: 200px;

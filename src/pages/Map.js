@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
-const Map = () => {
+const Map = (props) => {
   const [data, setData] = useState()
 
   useEffect(() => {
-    let block = JSON.parse(localStorage.getItem('block'))
-    let coordinates = JSON.parse(localStorage.getItem('coordinates'))
+    window.addEventListener('message', receiveMessage, false)
 
-    setData({ block, ...coordinates })
-
-    return () => localStorage.removeItem('block')
+    return () => window.removeEventListener('message', receiveMessage, false)
   }, [])
 
-  console.log(data)
+  function receiveMessage(event) {
+    // if (event.origin !== 'https://sc.smartalmaty.kz') return
+
+    console.log(event)
+    console.log(event.data)
+    event.source.postMessage(
+      'hi there yourself!  the secret response ' + 'is: rheeeeet!',
+      event.origin
+    )
+  }
 
   return <div>Map ...</div>
 }

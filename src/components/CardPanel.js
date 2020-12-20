@@ -7,42 +7,47 @@ const CardPanel = ({ blocks, district }) => {
   const slides = useMemo(() => {
     let arr = fillCard(blocks, district)
     arr = doubleCard(arr, district)
-    return fillSlide(arr, district).map((i, index) => (
-      <div
-        className={`cardpanel_slide`}
-        key={`cardpanel-slide-${district}-${index + 1}`}
-      >
-        {i}
+    arr = fillSlide(arr, district)
+    return arr.map((i, index) => (
+      <div className={`cardpanel`} key={`cardpanel-${district}-${index + 1}`}>
         <input
           type='radio'
           name='radio-left'
-          id={`slide-control-${index}`}
-          className={'left'}
+          // id={`slide-control-${index === 0 ? arr.length : index}`}
+          // className={`left`}
+          className={`slide-control-${index === 0 ? arr.length : index} left`}
         />
-        <a href='#st-panel-2' className={'left'}>
-          <LeftCircleFilled className={'icon'} />
+        <a
+          href={`slide-${index === 0 ? arr.length : index}`}
+          className={'left'}
+        >
+          {/* <LeftCircleFilled className={'icon'} /> */}
         </a>
 
         <input
           type='radio'
           name='radio-right'
-          id={`slide-control-${index === arr.length - 1 ? 0 : index + 1}`}
-          className={'right'}
+          // id={`slide-control-${index === arr.length - 1 ? 1 : index + 2}`}
+          // className={`right`}
+          className={`slide-control-${index === 0 ? arr.length : index} right`}
         />
-        <a href='#st-panel-2' className={'right'}>
-          <RightCircleFilled className={'icon'} />
+        <a
+          href={`slide-${index === 0 ? arr.length : index}`}
+          className={'right'}
+        >
+          {/* <RightCircleFilled className={'icon'} /> */}
         </a>
+        <div
+          className={`cardpanel_slide slide-${index + 1}`}
+          id={`slide-${index + 1}`}
+        >
+          {i}
+        </div>
       </div>
     ))
   }, [blocks, district])
 
-  return (
-    <div className={'cardpanel'}>
-      {slides.map((s) => s)}
-      {/* <LeftCircleFilled className={'nav_icon left'} />
-      <RightCircleFilled className={'nav_icon right'} /> */}
-    </div>
-  )
+  return slides
 }
 
 export default React.memo(CardPanel)

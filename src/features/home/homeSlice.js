@@ -20,7 +20,7 @@ export const getCoordinates = createAsyncThunk(
         )}&region=${data.region}&year=2020`
       )
       .then((res) => {
-        console.log(res, data)
+        // console.log(res, data)
         localStorage.setItem(
           'coordinates',
           JSON.stringify({
