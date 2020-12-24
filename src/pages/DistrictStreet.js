@@ -38,10 +38,6 @@ const CheckboxDistricts = ({
   setReset(false);
  }, [reset]);
 
- useEffect(() => {
-  console.log("DistCheckBox", selectedDistrict);
- }, [selectedDistrict]);
-
  const menu = (
   <Menu className="Ant_Drop_Block_Style">
    <Menu.Item key="2" className="Ant_Drop_Block_Style_Checkbox">

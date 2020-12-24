@@ -48,6 +48,11 @@ const CheckboxCategory = ({
   "Капитальный ремонт пешеходной зоны",
   "Строительство и реконструкция водопровода и канализации",
   "Строительство и реконструкция арыков",
+  "Реконструкция пешеходной зоны",
+  "Строительство и реконструкция канализации и водопровода",
+  "Количество домов, подключенных к центальному отоплению",
+  "Строительство и реконструкция арыков",
+  "Строительство линий наружного освещения",
  ]);
  const [filteredCategories, setFilteredCategories] = useState([]);
  const [filterValue, setFilterValue] = useState("");
@@ -57,10 +62,6 @@ const CheckboxCategory = ({
   setSelectedCategory([]);
   setReset(false);
  }, [reset]);
-
- useEffect(() => {
-  console.log(large);
- }, [large]);
 
  /** Парсинг данных из json */
  const parseCategoriesFromJson = (json) => {
