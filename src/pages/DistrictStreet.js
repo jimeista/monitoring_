@@ -24,91 +24,23 @@ const CheckboxDistricts = ({
  checkedDistricts,
  setCheckedDistricts,
  getCard,
+ checkedYears,
+ initialDistrict,
 }) => {
  /** переменные
   * visible - состояние выпадашки
   * districtsAndStreets - основные категории
   */
  const [visible, setVisible] = useState(false);
- const [districtsAndStreets, setDistricsAndStreets] = useState({
-  districts: [
-   "Ауэзовский район",
-   "Бостандыкский район",
-   "Алатауский район",
-   "Медеуский район",
-   "Алмалинский район",
-   "Турксибский район",
-   "Наурызбайский район",
-   "Жетысуский район",
-  ],
-  streets: [],
-  districtFilter: [],
-  streetsFilter: [],
-  tempStreetFilter: [],
-  checkedStreets: [],
-  checkedDistricts: [],
- });
- /** переменные
-  * changeHandler - изминение данных
-  */
- const changeHandler = ({ value }) => {
-  setDistricsAndStreets({ ...districtsAndStreets, ...value });
- };
- /**
-  * начальные данные
-  */
+
  useEffect(() => {
-  if (filteredAccidents) {
-   const districs = [
-    ...new Set(
-     jp.query(JSON.parse(JSON.stringify(filteredAccidents)), "$..region")
-    ),
-   ];
+  setSelectedDistrict([]);
+  setReset(false);
+ }, [reset]);
 
-   const streets = [
-    ...new Set(
-     jp.query(
-      JSON.parse(JSON.stringify(filteredAccidents)),
-      "$..[?(@.street != null & @.street != '')].street"
-     )
-    ),
-   ];
-   changeHandler({
-    value: {
-     districts:
-      selectedDistricts.length === 0 ? districs : districtsAndStreets.districts,
-     districtFilter:
-      selectedDistricts.length === 0 ? districs : districtsAndStreets.districts,
-     streets: streets,
-     streetsFilter: streets,
-     checkedDistricts: reset ? [] : districtsAndStreets.checkedDistricts,
-     checkedStreets: reset ? [] : districtsAndStreets.checkedStreets,
-    },
-   });
-
-   setReset(false);
-  }
- }, [filteredAccidents, reset]);
-
- /**
-  * при выборе района
-  */
- const updateStreet = ({ values }) => {
-  if (values.length === 0) {
-   changeHandler({
-    value: {
-     streetsFilter: districtsAndStreets.streets,
-     checkedDistricts: values,
-    },
-   });
-   return;
-  }
-  let arrStreet = [];
-  arrStreet = [...new Set(arrStreet.flatMap((el) => el))];
-  changeHandler({
-   value: { checkedDistricts: values, streetsFilter: arrStreet },
-  });
- };
+ useEffect(() => {
+  console.log("DistCheckBox", selectedDistrict);
+ }, [selectedDistrict]);
 
  const menu = (
   <Menu className="Ant_Drop_Block_Style">
@@ -122,7 +54,7 @@ const CheckboxDistricts = ({
       className="ant_drop_block_item_list"
      >
       {[
-       "Ауезовский район",
+       "Ауэзовский район",
        "Бостандыкский район",
        "Алатауский район",
        "Медеуский район",
@@ -179,7 +111,14 @@ const CheckboxDistricts = ({
           * приминение выбранных данных
           */
          onClick={() => {
+          setSelectedDistrict([initialDistrict]);
           setCheckedDistricts([]);
+          getCard({
+           disricts: [initialDistrict],
+           dates: checkedYears,
+          });
+
+          setVisible(false);
          }}
         >
          Сбросить
@@ -198,6 +137,12 @@ const CheckboxDistricts = ({
           */
          onClick={() => {
           setCheckedDistricts(selectedDistrict);
+          getCard({
+           disricts: selectedDistrict,
+           dates: checkedYears,
+          });
+
+          setVisible(false);
          }}
         >
          Применить

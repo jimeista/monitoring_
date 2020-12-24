@@ -113,26 +113,41 @@ const doubleCard = (data, district) => {
   let arr = []
 
   data.forEach((i, index) => {
-    if (index !== 0 && (index + 1) % 2 === 0) {
-      arr.push(
-        <div
-          className={'carddouble'}
-          key={`carddouble-${district}-${index + 1}`}
-        >
-          {i}
-          {data[index - 1]}
-        </div>
-      )
-    }
-    if (data.length % 2 === 1 && index === data.length - 1) {
-      arr.push(
-        <div
-          className={'carddouble'}
-          key={`carddouble-${district}-${index + 1}`}
-        >
-          {i}
-        </div>
-      )
+    if (index !== 0) {
+      if (data.length === 9) {
+        if (index === 6 || index === 7 || index === 8) {
+          arrPushSingle(arr, data, district, i, index)
+        } else {
+          let ind = (index + 1) % 2
+          ind === 0 && arrPushDouble(arr, data, district, i, index)
+        }
+      } else if (data.length === 15) {
+        if (index === 12 || index === 13 || index === 14) {
+          arrPushSingle(arr, data, district, i, index)
+        } else {
+          let ind = (index + 1) % 2
+          ind === 0 && arrPushDouble(arr, data, district, i, index)
+        }
+      } else if (
+        data.length === 2 ||
+        data.length === 4 ||
+        data.length === 8 ||
+        data.length === 10 ||
+        data.length === 14 ||
+        data.length === 16
+      ) {
+        if (index + 2 === data.length || index + 1 === data.length) {
+          arrPushSingle(arr, data, district, i, index)
+        } else {
+          let ind = (index + 1) % 2
+          ind === 0 && arrPushDouble(arr, data, district, i, index)
+        }
+      } else {
+        let ind = (index + 1) % 2
+        ind === 0 && arrPushDouble(arr, data, district, i, index)
+        index + 1 === data.length &&
+          arrPushSingle(arr, data, district, i, index)
+      }
     }
   })
   return arr
@@ -154,4 +169,21 @@ const fillSlide = (data, district, classname) => {
   })
 
   return arr
+}
+
+const arrPushDouble = (arr, data, district, i, index) => {
+  arr.push(
+    <div className={'carddouble'} key={`carddouble-${district}-${index + 1}`}>
+      {i}
+      {data[index - 1]}
+    </div>
+  )
+}
+
+const arrPushSingle = (arr, data, district, i, index) => {
+  arr.push(
+    <div className={'carddouble'} key={`carddouble-${district}-${index + 1}`}>
+      {i}
+    </div>
+  )
 }

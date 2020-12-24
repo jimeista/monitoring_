@@ -25,6 +25,10 @@ const CheckboxCategory = ({
  getCard,
  setCheckedCategories,
  checkedCategories,
+ checkedDistricts,
+ initialDistricts,
+ checkedYears,
+ initialCategory,
 }) => {
  /** переменные
   * visible - состояние выпадашки
@@ -50,9 +54,13 @@ const CheckboxCategory = ({
 
  /** При сбросе обнуление данных */
  useEffect(() => {
-  //   reset && clearAll();
+  setSelectedCategory([]);
   setReset(false);
  }, [reset]);
+
+ useEffect(() => {
+  console.log(large);
+ }, [large]);
 
  /** Парсинг данных из json */
  const parseCategoriesFromJson = (json) => {
@@ -77,32 +85,37 @@ const CheckboxCategory = ({
 
  const menu = (
   <Menu className={`Ant_Drop_Block_Style ${large ? "large" : ""} `}>
-   <div className="info-panel large_list">
-    {filteredCrimesData?.length === 0 ? "Нет Данных" : ""}
+   <div>
+    <Checkbox.Group
+     value={selectedCategory}
+     className="Ant_Drop_Block_Style_Checkbox"
+     onChange={(v) => {
+      setSelectedCategory(v);
+     }}
+    >
+     {[
+      "Капитальный ремонт дворов",
+      "Высадка деревьев",
+      "Кол-во мест в детских садах",
+      "Кол-во мест в школах",
+      "Благоустройство парков и скверов",
+      "Средний ремонт дорог",
+      "Капитальный ремонт пешеходной зоны",
+      "Строительство и реконструкция водопровода и канализации",
+      "Строительство и реконструкция арыков",
+     ].map((el, index) => {
+      return (
+       <Checkbox
+        key={index}
+        value={el}
+        className={`ant-checkbox-group-item ant-checkbox-wrapper ant-checkbox-wrapper-checked`}
+       >
+        {checkCategory(el)}
+       </Checkbox>
+      );
+     })}
+    </Checkbox.Group>
    </div>
-
-   {selectedCategory?.length !== 0 ? (
-    <div>
-     <Checkbox.Group
-      value={selectedCategory}
-      className="Ant_Drop_Block_Style_Checkbox"
-      options={[
-       "Капитальный ремонт дворов",
-       "Высадка деревьев",
-       "Кол-во мест в детских садах",
-       "Кол-во мест в школах",
-       "Благоустройство парков и скверов",
-       "Средний ремонт дорог",
-       "Капитальный ремонт пешеходной зоны",
-       "Строительство и реконструкция водопровода и канализации",
-       "Строительство и реконструкция арыков",
-      ]}
-      onChange={(v) => {
-       setSelectedCategory(v);
-      }}
-     />
-    </div>
-   ) : null}
 
    {selectedCategory?.length !== 0 ? (
     <Menu.Item key="6" className="ant_drop_block_item">
@@ -126,8 +139,18 @@ const CheckboxCategory = ({
         <span
          /** Применение выбранных данных */
          onClick={() => {
+          setSelectedCategory([initialCategory]);
           setCheckedCategories([]);
-          //   getCard();
+          getCard({
+           categories: selectedCategory,
+           disricts:
+            checkedDistricts.length > 0
+             ? checkedDistricts
+             : initialDistricts
+             ? [initialDistricts]
+             : [],
+           dates: checkedYears,
+          });
          }}
         >
          Сбросить
@@ -145,6 +168,16 @@ const CheckboxCategory = ({
          onClick={() => {
           setCheckedCategories(selectedCategory);
           setVisible(!visible);
+          getCard({
+           categories: selectedCategory,
+           disricts:
+            checkedDistricts.length > 0
+             ? checkedDistricts
+             : initialDistricts
+             ? [initialDistricts]
+             : [],
+           dates: checkedYears,
+          });
          }}
         >
          Применить
@@ -167,12 +200,33 @@ const CheckboxCategory = ({
    }}
    className="ant_drop_menu"
   >
-   <Button className="ant_drop_btn">
+   <Button className={`ant_drop_btn ${large ? "large" : ""}`}>
     {titleBtn}
     <DownOutlined />
    </Button>
   </Dropdown>
  );
+};
+
+const checkCategory = (name) => {
+ switch (name) {
+  case "Капитальный ремонт дворов":
+   return "Благоустройство дворов";
+  case "Строительство и реконструкция садиков":
+   return "Кол-во мест в детском саду введены в эксплуатацию";
+  case "Строительство и реконструкция школ":
+   return "Кол-во мест в школе введены в эксплуатацию";
+  case "Реконструкция пешеходной зоны":
+   return "Строительство пешеходных тротуаров";
+  case "Строительство и реконструкция канализации и водопровода":
+   return "Строительство сетей водопровода и канализации";
+  case "Строительство и реконструкция арыков":
+   return "Строительство арычных сетей";
+  case "Строительство линий наружного освещения":
+   return "Установка новых световых точек, опор наружного освещения";
+  default:
+   return name;
+ }
 };
 
 /** Redux переменные */

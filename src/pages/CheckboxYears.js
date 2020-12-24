@@ -25,8 +25,10 @@ const CheckboxYears = ({
  selectedCategory,
  years,
  setYears,
+ checkedYears,
  selectedDates,
  setSelectedDates,
+ setCheckedYears,
  getCard,
 }) => {
  /** переменные
@@ -37,7 +39,7 @@ const CheckboxYears = ({
   * districtsAndStreets - jcy
   */
  const [visible, setVisible] = useState(false);
- const [selectedDate, changeSelectedDate] = useState(0);
+ const [selectedDate, changeSelectedDate] = useState(1);
 
  /** получение основных данных */
 
@@ -70,20 +72,19 @@ const CheckboxYears = ({
       style={{
        display: "flex",
        justifyContent: `${
-        selectedDatees && selectedDates ? "space-between" : "flex-end"
+        checkedYears && selectedDates ? "space-between" : "flex-end"
        }`,
       }}
      >
-      {selectedDatees && (
+      {checkedYears && (
        <span className="default_btn_style active">
         <span
          /** сброс данных */
          onClick={() => {
-          setFilterDistrict({
-           selectedDate: null,
-          });
-          setSelectedDates(null);
-          filterCrimesData();
+          getCard({ dates: parseInt(moment().format("YYYY")) });
+          setCheckedYears(parseInt(moment().format("YYYY")));
+          setVisible(!visible);
+          setCheckedYears(null);
          }}
         >
          Сбросить
@@ -99,7 +100,8 @@ const CheckboxYears = ({
         <span
          /** применить выбранные данные */
          onClick={() => {
-          getCard();
+          getCard({ dates: selectedDates });
+          setCheckedYears(selectedDates);
           setVisible(!visible);
          }}
         >

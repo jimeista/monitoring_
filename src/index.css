@@ -203,6 +203,12 @@ body {
  background: inherit;
  border-color: rgba(255, 255, 255, 0.5);
 }
+.Ant_Drop_Block_Style.large {
+ width: 270px;
+}
+.RoadWorks_filter .ant_drop_menu.large {
+ width: auto;
+}
 
 .Ant_Drop_Block_Style > div:nth-child(2) {
  height: 100%;

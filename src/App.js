@@ -19,7 +19,7 @@ function App() {
  }, []);
 
  return (
-  <Router basename="/">
+  <Router basename="/sc-districts/v2/">
    <Routes />
   </Router>
  );
