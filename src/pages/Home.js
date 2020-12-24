@@ -1,66 +1,75 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import Carousel, { Dots } from "@brainhubeu/react-carousel";
+import React, { useEffect, useMemo, useState, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Carousel, { Dots } from '@brainhubeu/react-carousel'
 
-import CardPanel from "../components/CardPanel";
-import HomeHeader from "../components/HomeHeader";
-import HomeHero from "../components/HomeHero";
+import { setDotValue } from '../features/home/homeSlice'
+
+import CardPanel from '../components/CardPanel'
+import HomeHeader from '../components/HomeHeader'
+import HomeHero from '../components/HomeHero'
 
 const Home = () => {
- const { home } = useSelector((state) => state.home);
- const [value, setValue] = useState(0);
- const [slides, setSlides] = useState([]);
+  const { home, value } = useSelector((state) => state.home)
+  const [slides, setSlides] = useState([])
 
- useEffect(() => {
-  if (home.status === "success") {
-   let auez = home.data.find((i) => i.district === "Ауэзовский район");
-   let medeu = home.data.find((i) => i.district === "Медеуский район");
+  const dispatch = useDispatch()
 
-   let arr = home.data.filter(
-    (i) => i.district !== "Ауэзовский район" && i.district !== "Медеуский район"
-   );
+  useEffect(() => {
+    if (home.status === 'success') {
+      let auez = home.data.find((i) => i.district === 'Ауэзовский район')
+      let medeu = home.data.find((i) => i.district === 'Медеуский район')
 
-   arr = [auez, medeu, ...arr];
+      let arr = home.data.filter(
+        (i) =>
+          i.district !== 'Ауэзовский район' && i.district !== 'Медеуский район'
+      )
 
-   arr = arr.map((item) => {
-    let blocks = item.blocks.filter((i) => i["is-visible"]);
+      arr = [auez, medeu, ...arr]
 
-    console.log(blocks);
+      arr = arr.map((item) => {
+        let blocks = item.blocks.filter((i) => i['is-visible'])
+
+        return (
+          <div className='carousel-wrapper' key={item.district}>
+            <HomeHero
+              data={{ date: item['last-edit'], title: item.district }}
+            />
+            <CardPanel blocks={blocks} district={item.district} />
+          </div>
+        )
+      })
+      setSlides(arr)
+    }
+  }, [home])
+
+  const onchange = useCallback(
+    (val) => {
+      dispatch(setDotValue(val))
+    },
+    [dispatch]
+  )
+
+  const carousel = useMemo(() => {
     return (
-     <div className="carousel-wrapper" key={item.district}>
-      <HomeHero data={{ date: item["last-edit"], title: item.district }} />
-      <CardPanel blocks={blocks} district={item.district} />
-     </div>
-    );
-   });
-   setSlides(arr);
-  }
- }, [home]);
+      <div className={'home-carousel'}>
+        <Carousel
+          value={value}
+          slides={slides}
+          onchange={onchange}
+          draggable={false}
+          plugins={['arrows']}
+        />
+        <Dots value={value} onChange={onchange} number={home.data.length} />
+      </div>
+    )
+  }, [home, slides, value, onchange])
 
- const onchange = (val) => {
-  setValue(val);
- };
-
- const carousel = useMemo(() => {
   return (
-   <div className={"home-carousel"}>
-    <Carousel
-     value={value}
-     slides={slides}
-     onchange={onchange}
-     draggable={false}
-    />
-    <Dots value={value} onChange={onchange} number={home.data.length} />
-   </div>
-  );
- }, [home, slides, value]);
+    <div className='home'>
+      <HomeHeader />
+      {carousel}
+    </div>
+  )
+}
 
- return (
-  <div className="home">
-   <HomeHeader />
-   {carousel}
-  </div>
- );
-};
-
-export default React.memo(Home);
+export default React.memo(Home)

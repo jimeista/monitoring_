@@ -45,8 +45,23 @@ const homeSlice = createSlice({
       status: 'idle',
       error: null,
     },
+    value: 0,
   },
-  reducers: {},
+  reducers: {
+    setDotValue: (state, action) => {
+      let length = state.home.data.length
+
+      console.log(action.payload, length)
+
+      if (action.payload === -1) {
+        state.value = length - 1
+      } else if (action.payload === length) {
+        state.value = 0
+      } else {
+        state.value = action.payload
+      }
+    },
+  },
   extraReducers: {
     //get monitoring data
     [getMonitoring.pending]: (state) => {
@@ -76,7 +91,7 @@ const homeSlice = createSlice({
   },
 })
 
-// export const {} = homeSlice.actions
+export const { setDotValue } = homeSlice.actions
 
 export default homeSlice.reducer
 
@@ -90,9 +105,9 @@ const checkCategory = (name) => {
       return 'Строительство и реконструкция канализации и водопровода'
     case 'Реконструкция арычных сетей':
       return 'Строительство и реконструкция арыков'
-    case 'Строительство сетей газоснобжения':
+    case 'Строительство сетей газоснабжения':
       return 'Строительство и реконструкция газопровода'
-    case 'Установка новых световых точек,опор наружного освещения':
+    case 'Установка новых световых точек, опор наружного освещения':
       return 'Строительство линий наружного освещения'
     default:
       return name

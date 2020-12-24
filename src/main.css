@@ -96,6 +96,7 @@
   padding: 0 60px;
 }
 .home-hero-title {
+  position: relative;
   height: 100%;
   flex-grow: 1;
   display: flex;
@@ -108,17 +109,7 @@
 
   color: #ffffff;
 }
-.home-hero_inner {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  align-items: flex-start;
 
-  width: max-content;
-  position: absolute;
-  top: 40px;
-  left: 60px;
-}
 .home-hero-date_text {
   padding-right: 40px;
 }
@@ -297,9 +288,24 @@
   opacity: 0.6;
 }
 
+.nav_icon_dots {
+  font-size: 25px;
+  opacity: 0.6;
+}
+
 .nav_icon:hover {
   cursor: pointer;
   opacity: 1;
+}
+
+.nav_icon_dots:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.left_dots {
+  margin-right: 20px;
+  z-index: 1001;
 }
 
 .left {
@@ -308,6 +314,12 @@
   left: 20px;
   z-index: 1001;
 }
+
+.right_dots {
+  margin-left: 20px;
+  z-index: 1001;
+}
+
 .right {
   position: absolute;
   top: 49vh;

@@ -70,16 +70,10 @@ const CardPanel = ({ blocks, district }) => {
       <LeftCircleFilled
         className={'nav_icon left'}
         onClick={() => prev(count)}
-        // disabled={count === 0}
       />
       <RightCircleFilled
         className={'nav_icon right'}
         onClick={() => next(count)}
-        // disabled={
-        //   (blocks.length > 12 && count === 2) ||
-        //   blocks.length < 7 ||
-        //   (blocks.length < 13 && count === 1)
-        // }
       />
     </div>
   )
