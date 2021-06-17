@@ -1,26 +1,39 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+import { getCookie } from '../../utils/auth'
+
+export const getConfig = createAsyncThunk(
+  'healthmodule/getConfig',
+  async () => {
+    const cookie = JSON.parse(getCookie('usertoken'))
+
+    if (cookie) return { headers: cookie }
+  }
+)
+
+//асинхронный get запрос по районам
 export const getMonitoring = createAsyncThunk(
   'healthmodule/getMonitoring',
-  async () => {
+  async (ob) => {
     return await axios
-      .get('/sc-districts/api/info-blocks')
+      .get('/sc-api-gateway/secured/_/sc-districts/api/info-blocks', ob.config)
       .then((res) => res.data)
   }
 )
 
+//асинхронный get запрос по работе
 export const getCoordinates = createAsyncThunk(
   'healthmodule/getCoordinates',
-  async (data) => {
+  async (ob) => {
     return await axios
       .get(
-        `/sc-roadworks/api/roadworks?category=${checkCategory(
-          data.category
-        )}&region=${data.region}&year=2020`
+        `/sc-api-gateway/secured/_/sc-roadworks/api/roadworks?category=${checkCategory(
+          ob.data.category
+        )}&region=${ob.data.region}&year=2020`,
+        ob.config
       )
       .then((res) => {
-        console.log(res, data)
         localStorage.setItem(
           'coordinates',
           JSON.stringify({
@@ -31,24 +44,39 @@ export const getCoordinates = createAsyncThunk(
       })
   }
 )
-
 const homeSlice = createSlice({
   name: 'home',
   initialState: {
+    // слайды
     home: {
       data: [],
       status: 'idle',
       error: null,
     },
+    // координаты на карту
     coordinates: {
       data: [],
       status: 'idle',
       error: null,
     },
+    value: 0,
   },
-  reducers: {},
+  reducers: {
+    // авторучная прокрутка слайдов по районам
+    setDotValue: (state, action) => {
+      let length = state.home.data.length
+
+      if (action.payload === -1) {
+        state.value = length - 1
+      } else if (action.payload === length) {
+        state.value = 0
+      } else {
+        state.value = action.payload
+      }
+    },
+  },
   extraReducers: {
-    //get monitoring data
+    //get запрос
     [getMonitoring.pending]: (state) => {
       state.home.status = 'loading'
     },
@@ -61,7 +89,7 @@ const homeSlice = createSlice({
       state.home.error = action.payload
     },
 
-    //get coordinates data
+    //get по работам
     [getCoordinates.pending]: (state) => {
       state.coordinates.status = 'loading'
     },
@@ -73,13 +101,27 @@ const homeSlice = createSlice({
       state.coordinates.status = 'failed'
       state.coordinates.error = action.payload
     },
+
+    //get по работам
+    [getConfig.pending]: (state) => {
+      state.status = 'loading'
+    },
+    [getConfig.fulfilled]: (state, action) => {
+      state.status = 'success'
+      state.config = action.payload
+    },
+    [getConfig.rejected]: (state, action) => {
+      state.status = 'failed'
+      state.error = action.payload
+    },
   },
 })
 
-// export const {} = homeSlice.actions
+export const { setDotValue } = homeSlice.actions
 
 export default homeSlice.reducer
 
+// клиент сервер сверка найименовании категории работ
 const checkCategory = (name) => {
   switch (name) {
     case 'Благоустройство дворов':
@@ -90,9 +132,9 @@ const checkCategory = (name) => {
       return 'Строительство и реконструкция канализации и водопровода'
     case 'Реконструкция арычных сетей':
       return 'Строительство и реконструкция арыков'
-    case 'Строительство сетей газоснобжения':
+    case 'Строительство сетей газоснабжения':
       return 'Строительство и реконструкция газопровода'
-    case 'Установка новых световых точек,опор наружного освещения':
+    case 'Установка новых световых точек, опор наружного освещения':
       return 'Строительство линий наружного освещения'
     default:
       return name

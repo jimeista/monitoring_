@@ -3,10 +3,12 @@ import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons'
 
 import Card from './Card'
 
+// карта панель из шести карточек
 const CardPanel = ({ blocks, district }) => {
   const [classname, setClassname] = useState('')
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0) //активная панель для слайда по кнопкам
 
+  // сброс состоянии при закрытии компоненты
   useEffect(() => {
     return () => {
       setClassname('')
@@ -14,9 +16,11 @@ const CardPanel = ({ blocks, district }) => {
     }
   }, [])
 
+  // элемент панели слайда
   const slides = useMemo(() => {
     let arr = fillCard(blocks, district)
     arr = doubleCard(arr, district)
+
     return fillSlide(arr, district, classname).map((i, index) => (
       <div
         className={`cardpanel_slide ${classname}`}
@@ -27,6 +31,7 @@ const CardPanel = ({ blocks, district }) => {
     ))
   }, [blocks, district, classname])
 
+  // переход на пред панель 6-ти карточек
   const prev = (count) => {
     if (count - 1 >= 0) {
       setCount(count - 1)
@@ -43,6 +48,7 @@ const CardPanel = ({ blocks, district }) => {
     }
   }
 
+  // переход на след панель 6-ти карточек
   const next = (count) => {
     if (blocks.length > 12) {
       if (count < 2) {
@@ -66,20 +72,16 @@ const CardPanel = ({ blocks, district }) => {
 
   return (
     <div className={'cardpanel'}>
+      {/* слайды, максимум 3 слайда */}
       {slides.map((s) => s)}
+      {/* кнопки переключения по слайдам */}
       <LeftCircleFilled
         className={'nav_icon left'}
         onClick={() => prev(count)}
-        // disabled={count === 0}
       />
       <RightCircleFilled
         className={'nav_icon right'}
         onClick={() => next(count)}
-        // disabled={
-        //   (blocks.length > 12 && count === 2) ||
-        //   blocks.length < 7 ||
-        //   (blocks.length < 13 && count === 1)
-        // }
       />
     </div>
   )
@@ -87,7 +89,7 @@ const CardPanel = ({ blocks, district }) => {
 
 export default React.memo(CardPanel)
 
-//fill each data into card
+//создаем карточку для каждой категории
 const fillCard = (data, district) => {
   return data.map((item, index) => {
     return Object.keys(item).length > 0 ? (
@@ -108,12 +110,16 @@ const fillCard = (data, district) => {
   })
 }
 
-//display two rows in a div
+//объединяем две карточки в одну колону
+//это нужно чтобы в одной панели было 3 колонки
 const doubleCard = (data, district) => {
   let arr = []
 
+  // в зависимости количества карточек череда отображения в двойной строке панели меняется
   data.forEach((i, index) => {
+    // пропускаем первый элемент
     if (index !== 0) {
+      // проверка на количество карточек равное 9-ти
       if (data.length === 9) {
         if (index === 6 || index === 7 || index === 8) {
           arrPushSingle(arr, data, district, i, index)
@@ -121,14 +127,18 @@ const doubleCard = (data, district) => {
           let ind = (index + 1) % 2
           ind === 0 && arrPushDouble(arr, data, district, i, index)
         }
-      } else if (data.length === 15) {
+      }
+      // проверка на количество карточек равное 15-ти
+      else if (data.length === 15) {
         if (index === 12 || index === 13 || index === 14) {
           arrPushSingle(arr, data, district, i, index)
         } else {
           let ind = (index + 1) % 2
           ind === 0 && arrPushDouble(arr, data, district, i, index)
         }
-      } else if (
+      }
+      // проверка на количество карточек равное ...
+      else if (
         data.length === 2 ||
         data.length === 4 ||
         data.length === 8 ||
@@ -153,16 +163,19 @@ const doubleCard = (data, district) => {
   return arr
 }
 
-const fillSlide = (data, district, classname) => {
-  let arr = []
-  let arr_ = []
+// заполняем панель слайда тремя колонами карточек
+const fillSlide = (data) => {
+  let arr = [] //конечная переменная панели слайда
+  let arr_ = [] //временная переменная одного слайда, которая сбрасывается при заполнении слайда
 
   data.forEach((i, index) => {
-    arr_.push(i)
+    arr_.push(i) //заполняем один слайд пока условие не соответсвует для отрисовки
     if (index !== 0 && (index + 1) % 3 === 0) {
+      // полная закраска слайда
       arr.push(arr_)
       arr_ = []
     }
+    // закраска слайда оставшимися карточками
     if (index === data.length - 1 && (index + 1) % 3 !== 0) {
       arr.push(arr_)
     }
@@ -171,6 +184,7 @@ const fillSlide = (data, district, classname) => {
   return arr
 }
 
+// колона с двумя карточками
 const arrPushDouble = (arr, data, district, i, index) => {
   arr.push(
     <div className={'carddouble'} key={`carddouble-${district}-${index + 1}`}>
@@ -180,6 +194,7 @@ const arrPushDouble = (arr, data, district, i, index) => {
   )
 }
 
+// колона с одной карточкой
 const arrPushSingle = (arr, data, district, i, index) => {
   arr.push(
     <div className={'carddouble'} key={`carddouble-${district}-${index + 1}`}>

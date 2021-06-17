@@ -8,6 +8,7 @@ import homeReducer from './features/home/homeSlice'
 import './index.css'
 import App from './App'
 
+// доступ к состоянию редакса
 const store = configureStore({
   reducer: {
     home: homeReducer,

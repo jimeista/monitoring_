@@ -1,550 +1,602 @@
-import React from 'react'
-import { useState } from 'react'
-import CheckboxCategory from './CheckboxCategory'
-import CheckboxYears from './CheckboxYears'
-import DistrictStreet from './DistrictStreet'
-import { ReactComponent as IconFilter } from '../assets/icons8-clear-filters-100.svg'
-import YandexMaps from './YandexMaps'
-import { useEffect } from 'react'
-import Axios from 'axios'
-var moment = require('moment')
+import React from "react";
+import { useState } from "react";
+import CheckboxCategory from "./CheckboxCategory";
+import CheckboxYears from "./CheckboxYears";
+import DistrictStreet from "./DistrictStreet";
+import { ReactComponent as IconFilter } from "../assets/icons8-clear-filters-100.svg";
+import YandexMaps from "./YandexMaps";
+import { useEffect } from "react";
+import {  useSelector } from 'react-redux'
+import Axios from "axios";
+var moment = require("moment");
+
+/**
+ * Модуль отображения данных о работах по районам на карте
+ * Имеется фильтрация по датам, районам, и категориям работ
+ * после перехода с главной страницы данные беруться с локального хранилищя о выбранной категории
+ * и отравляеться запрос на данные
+ */
 
 function MMap(props) {
-  const [reset, setReset] = useState(false)
-  const [periodVisible, setPeriodVisible] = useState(false)
+ /**
+  * Значение переменных
+  * reset = значение сброса фильтров
+  * periodVisible = значение открытия фильтра дат
+  * initialDistrict = значение первоначального района
+  * initialCategory = значение первональной категории работ
+  * initialYear = значение первоначальной даты
+  * data = данные по выбранным фильтрам
+  * checkedDistricts = примененые фильтры районов
+  * checkedCategories = примененые фильтры категории
+  * checkedYears = примененые фильтры дат
+  * selectedCategory = выбранные категории
+  * selectedDates = выбранные даты
+  * selectedDistrict = выбранные районы
+  * mapdata = данные для карт
+  * mapState = положение карты
+  *
+  * Значение функции
+  * getCard() = получение даннных о работах по району по первоначальным данным
+  * getCard2() = получение данных о работах по району с использованием фильтров
+  * filterByCategories() = фильтрация данных по выбранной категории
+  * filterByCheckedDistricts() = фильтрация данных по выбранным районам
+  * isValidCategory() = фильтрация определенных категории
+  * addColor() = добавление цвета к работе в зависимости от Ответсвенного органа
+  * filterByCheckedCategories() = фильтрация данных по выбранной категории
+  * coordinatesToMapData() = подготовка данных для карт
+  * checkCategory() = смена названия категории работ
+  * resetAll() = сброс всего
+  */
+ const [reset, setReset] = useState(false);
+ const [periodVisible, setPeriodVisible] = useState(false);
 
-  const [initialDistrict, setInitialDistrict] = useState()
-  const [initialCategory, setInitialCategory] = useState()
-  const [initialYear, setInitialYear] = useState()
+ const [initialDistrict, setInitialDistrict] = useState();
+ const [initialCategory, setInitialCategory] = useState();
+ const [initialYear, setInitialYear] = useState();
 
-  const [initialMapData, setInitialMapData] = useState([])
-  const [data, setData] = useState([])
+ const [initialMapData, setInitialMapData] = useState([]);
+ const [data, setData] = useState([]);
 
-  const [checkedDistricts, setCheckedDistricts] = useState([])
-  const [checkedCategories, setCheckedCategories] = useState([])
-  const [checkedYears, setCheckedYears] = useState(null)
+ const [checkedDistricts, setCheckedDistricts] = useState([]);
+ const [checkedCategories, setCheckedCategories] = useState([]);
+ const [checkedYears, setCheckedYears] = useState(null);
 
-  const [selectedCategory, setSelectedCategory] = useState([])
-  const [selectedDates, setSelectedDates] = useState(2020)
-  const [selectedDistrict, setSelectedDistrict] = useState([])
+ const [selectedCategory, setSelectedCategory] = useState([]);
+ const [selectedDates, setSelectedDates] = useState(2020);
+ const [selectedDistrict, setSelectedDistrict] = useState([]);
 
-  const [mapdata, setMapData] = useState([])
-  const [selectedResponsible, setSelectedResponsible] = useState([])
-  const [years, setYears] = useState([2019, 2020, 2021])
-  const [mapData_, setMapData_] = useState(null)
-  const [mapState, setMapState] = useState({
-    center: [43.2405018, 76.9213614, 12],
-    zoom: 12,
-  })
+ const [mapdata, setMapData] = useState([]);
+ const [selectedResponsible, setSelectedResponsible] = useState([]);
+ const [years, setYears] = useState([2019, 2020, 2021]);
 
-  const [isL, setIsL] = useState(false)
+ const [mapData_, setMapData_] = useState(null);
+ const [mapState, setMapState] = useState({
+  center: [43.2405018, 76.9213614, 12],
+  zoom: 12,
+ });
+ const [isL, setIsL] = useState(false);
 
-  useEffect(() => {
-    let block = JSON.parse(localStorage.getItem('block'))
-    let coordinates = JSON.parse(localStorage.getItem('coordinates'))
-    let yyyy = moment(
-      coordinates?.geometries.length > 0
-        ? coordinates?.geometries[0]['start-date']
-        : moment(moment().format('YYYY'), 'YYYY').format('YYYY'),
-      'YYYY-MM-DD'
-    ).format('YYYY')
+ const {config} = useSelector(state => state.home)
 
-    let dddd = block.district
-    let cccc = block.ru
+ /**
+  * Первоначальная получение данных из локального хранилищя
+  * Отправка запроса для получение данных о работе по данному району
+  *
+  */
+ useEffect(() => {
+  if(config){
+   let block = JSON.parse(localStorage.getItem("block"));
+   let coordinates = JSON.parse(localStorage.getItem("coordinates"));
+   let yyyy = moment(
+       coordinates?.geometries.length > 0
+           ? coordinates?.geometries[0]["start-date"]
+           : moment(moment().format("YYYY"), "YYYY").format("YYYY"),
+       "YYYY-MM-DD"
+   ).format("YYYY");
 
-    setInitialCategory(cccc)
-    setInitialYear(yyyy)
-    setInitialDistrict(dddd)
+   let dddd = block.district;
+   let cccc = checkCategory(block.ru);
 
-    setSelectedDistrict([dddd])
-    setSelectedCategory([cccc])
-    getCard(yyyy, dddd, checkCategory(cccc))
-  }, [])
+   setInitialCategory(cccc);
+   setInitialYear(yyyy);
+   setInitialDistrict(dddd);
 
-  function getCard(yyyy, dddd, cccc) {
+   setSelectedDistrict([dddd]);
+   setSelectedCategory([cccc]);
+   getCard(yyyy, dddd, checkCategory(cccc));
+  }
+ }, [config]);
+
+ function getCard(yyyy, dddd, cccc) {
+   if(config) {
     Axios.get(
-      `/sc-roadworks/api/roadworks?year=${yyyy}${
-        dddd ? `&region=${dddd}` : ''
-      }${cccc ? `&category=${cccc}` : ''}`
+        `/sc-api-gateway/secured/_/sc-roadworks/api/roadworks?year=${yyyy}${dddd ? `&region=${dddd}` : ""}${
+            cccc ? `&category=${cccc}` : ""
+        }`,config
     ).then((result) => {
-      let mapdt = coordinatesToMapData(
-        addColor(
-          filterByCheckedDistricts(
-            filterByCategories(result.data),
-            checkedDistricts.length > 0
-              ? checkedDistricts
-              : initialDistrict
-              ? [initialDistrict]
-              : []
-          )
-        )
-      )
-      setInitialMapData(mapdt)
-      setMapData(mapdt)
+     let mapdt = coordinatesToMapData(
+         addColor(
+             filterByCheckedDistricts(
+                 filterByCategories(result.data),
+                 checkedDistricts.length > 0
+                     ? checkedDistricts
+                     : initialDistrict
+                     ? [initialDistrict]
+                     : []
+             )
+         )
+     );
+     setInitialMapData(mapdt);
+     setMapData(mapdt);
 
-      let tttt = filterByCheckedDistricts(
-        filterByCheckedCategories(
-          filterByCategories(result.data),
-          cccc
-            ? cccc
-            : checkedCategories.length > 0
-            ? checkedCategories
-            : initialCategory
-            ? [initialCategory]
-            : []
-        ),
-        dddd
-      )
+     let tttt = filterByCheckedDistricts(
+         filterByCheckedCategories(
+             filterByCategories(result.data),
+             cccc
+                 ? cccc
+                 : checkedCategories.length > 0
+                 ? checkedCategories
+                 : initialCategory
+                     ? [initialCategory]
+                     : []
+         ),
+         dddd
+     );
 
-      setSelectedResponsible(
-        tttt.reduce((organisations, organisation) => {
-          organisation.organisation = organisation.organisation.includes(
-            'Акимат'
-          )
-            ? 'Акимат'
-            : organisation.organisation
+     setSelectedResponsible(
+         tttt.reduce((organisations, organisation) => {
+          organisation.organisation = organisation.organisation.includes("Акимат")
+              ? "Акимат"
+              : organisation.organisation;
           if (
-            organisations.filter(
-              (el) => el.organisation === organisation.organisation
-            ).length > 0
+              organisations.filter(
+                  (el) => el.organisation === organisation.organisation
+              ).length > 0
           ) {
-            return organisations
+           return organisations;
           } else {
-            return [...organisations, organisation]
+           return [...organisations, organisation];
           }
-        }, [])
-      )
-      setData(addColor(tttt))
-    })
-  }
+         }, [])
+     );
+     setData(addColor(tttt));
+    });
+   }
+ }
 
-  function filterByCategories(data) {
-    return data.filter((el) => isValidCategory(el.category))
-  }
+ function filterByCategories(data) {
+  return data.filter((el) => isValidCategory(el.category));
+ }
 
-  function isValidCategory(category) {
-    return [
-      'Капитальный ремонт дворов',
-      'Высадка деревьев',
-      'Кол-во мест в детских садах',
-      'Кол-во мест в школах',
-      'Благоустройство парков и скверов',
-      'Средний ремонт дорог',
-      'Капитальный ремонт пешеходной зоны',
-      'Строительство и реконструкция водопровода и канализации',
-      'Строительство и реконструкция арыков',
-    ].includes(category)
-  }
+ function isValidCategory(category) {
+  return [
+   "Капитальный ремонт дворов",
+   "Высадка деревьев",
+   "Кол-во мест в детских садах",
+   "Кол-во мест в школах",
+   "Благоустройство парков и скверов",
+   "Средний ремонт дорог",
+   "Капитальный ремонт пешеходной зоны",
+   "Строительство и реконструкция водопровода и канализации",
+   "Строительство и реконструкция арыков",
+   "Реконструкция пешеходной зоны",
+   "Строительство и реконструкция канализации и водопровода",
+   "Количество домов, подключенных к центальному отоплению",
+   "Строительство и реконструкция арыков",
+   "Строительство линий наружного освещения",
+  ].includes(category);
+ }
 
-  function addColor(data) {
-    return data.map((el) => {
-      let color = el.organisation.includes('Акимат')
-        ? '#851DA7'
-        : el.organisation.includes('УГМ')
-        ? '#DC2B1F'
-        : el.organisation.includes('АлматыСу')
-        ? '#6CD7C9'
-        : el.organisation.includes('АлТС')
-        ? '#610035'
-        : el.organisation.includes('УКГС')
-        ? '#5EE83C'
-        : el.organisation.includes('УЗЭ')
-        ? '#2722EF'
-        : el.organisation.includes('КазТрансГаз')
-        ? '#FF54D8'
-        : '#045A2B'
-      return {
-        ...el,
-        color: color,
-      }
-    })
-  }
+ function addColor(data) {
+  return data.map((el) => {
+   let color = el.organisation.includes("Акимат")
+    ? "#851DA7"
+    : el.organisation.includes("УГМ")
+    ? "#DC2B1F"
+    : el.organisation.includes("АлматыСу")
+    ? "#6CD7C9"
+    : el.organisation.includes("АлТС")
+    ? "#610035"
+    : el.organisation.includes("УКГС")
+    ? "#5EE83C"
+    : el.organisation.includes("УЗЭ")
+    ? "#2722EF"
+    : el.organisation.includes("КазТрансГаз")
+    ? "#FF54D8"
+    : "#045A2B";
+   return {
+    ...el,
+    color: color,
+   };
+  });
+ }
 
-  function getCard2({ disricts, dates, categories }) {
-    setIsL(false)
+ function getCard2({ disricts, dates, categories  }) {
+   if(config){
+    setIsL(false);
     Axios.get(
-      `/sc-roadworks/api/roadworks?${dates ? 'year=' : ''}${parseInt(
-        dates ?? moment().format('YYYY')
-      )}`
+        `/sc-roadworks/api/roadworks?${dates ? "year=" : ""}${parseInt(
+            dates ?? moment().format("YYYY")
+        )}` , config
     ).then((result) => {
-      console.log(result)
-
-      let mapdt = coordinatesToMapData(
-        addColor(
-          filterByCheckedDistricts(
-            filterByCheckedCategories(
-              filterByCategories(result.data),
-              categories
-                ? categories
-                : checkedCategories.length > 0
-                ? checkedCategories
-                : initialCategory
-                ? [initialCategory]
-                : []
-            ),
-            disricts
-              ? disricts
-              : checkedDistricts.length > 0
-              ? checkedDistricts
-              : initialDistrict
-              ? [initialDistrict]
-              : []
-          )
-        )
-      )
-      setInitialMapData(mapdt)
-      setMapData(mapdt)
-      let tttt = filterByCheckedDistricts(
-        filterByCheckedCategories(
-          filterByCategories(result.data),
-          categories
-            ? categories
-            : checkedCategories.length > 0
-            ? checkedCategories
-            : initialCategory
-            ? [initialCategory]
-            : []
-        ),
-        disricts
-          ? disricts
-          : checkedDistricts.length > 0
-          ? checkedDistricts
-          : initialDistrict
-          ? [initialDistrict]
-          : []
-      )
-
-      setSelectedResponsible(
-        tttt.reduce((organisations, organisation) => {
-          organisation.organisation = organisation.organisation.includes(
-            'Акимат'
-          )
-            ? 'Акимат'
-            : organisation.organisation
+     let mapdt = coordinatesToMapData(
+         addColor(
+             filterByCheckedDistricts(
+                 filterByCheckedCategories(
+                     filterByCategories(result.data),
+                     categories
+                         ? categories
+                         : checkedCategories.length > 0
+                         ? checkedCategories
+                         : initialCategory
+                             ? [initialCategory]
+                             : []
+                 ),
+                 disricts
+                     ? disricts
+                     : checkedDistricts.length > 0
+                     ? checkedDistricts
+                     : initialDistrict
+                         ? [initialDistrict]
+                         : []
+             )
+         )
+     );
+     setInitialMapData(mapdt);
+     setMapData(mapdt);
+     let tttt = filterByCheckedDistricts(
+         filterByCheckedCategories(
+             filterByCategories(result.data),
+             categories
+                 ? categories
+                 : checkedCategories.length > 0
+                 ? checkedCategories
+                 : initialCategory
+                     ? [initialCategory]
+                     : []
+         ),
+         disricts
+             ? disricts
+             : checkedDistricts.length > 0
+             ? checkedDistricts
+             : initialDistrict
+                 ? [initialDistrict]
+                 : []
+     );
+     setSelectedResponsible(
+         tttt.reduce((organisations, organisation) => {
+          organisation.organisation = organisation.organisation.includes("Акимат")
+              ? "Акимат"
+              : organisation.organisation;
           if (
-            organisations.filter(
-              (el) => el.organisation === organisation.organisation
-            ).length > 0
+              organisations.filter(
+                  (el) => el.organisation === organisation.organisation
+              ).length > 0
           ) {
-            return organisations
+           return organisations;
           } else {
-            return [...organisations, organisation]
+           return [...organisations, organisation];
           }
-        }, [])
-      )
-      setIsL(true)
-      setData(addColor(tttt))
-    })
-  }
+         }, [])
+     );
+     setIsL(true);
+     setData(addColor(tttt));
+    });
+   }
+ }
 
-  function filterByCheckedCategories(data, categories) {
-    return data.filter((el) =>
-      categories?.length > 0 ? categories.includes(el.category) : true
-    )
-  }
+ function filterByCheckedCategories(data, categories) {
+  return data.filter((el) =>
+   categories?.length > 0 ? categories.includes(el.category) : true
+  );
+ }
 
-  function filterByCheckedDistricts(data, disctricts) {
-    console.log(disctricts)
-    return data.filter((el) =>
-      disctricts?.length > 0 ? disctricts.includes(el.region) : true
-    )
-  }
+ function filterByCheckedDistricts(data, disctricts) {
+  return data.filter((el) =>
+   disctricts?.length > 0 ? disctricts.includes(el.region) : true
+  );
+ }
 
-  function coordinatesToMapData(mapdata) {
-    return mapdata
-      ?.filter((el) => el.geometries.coordinates[0])
-      ?.map((el, index) => ({
-        type: 'Feature',
-        id: index,
-        organisation: el.organisation,
-        geometry: {
-          type: 'LineString',
-          coordinates: el.geometries.coordinates[0],
-        },
-        properties: {
-          balloonContent: `
+ function coordinatesToMapData(mapdata) {
+  return mapdata
+   ?.filter((el) => el.geometries.coordinates[0])
+   ?.map((el, index) => ({
+    type: "Feature",
+    id: index,
+    organisation: el.organisation,
+    geometry: {
+     type: "LineString",
+     coordinates: el.geometries.coordinates[0],
+    },
+    properties: {
+     balloonContent: `
         <div>
-          <div><b>Начало работы :</b> ${el['start-date']}</div>
-          <div><b>Завершение работы :</b> ${el['end-date']}</div>
-          <div><b>Район :</b> ${el['region']}</div>
-          <div><b>Категория работы :</b> ${el['category']}</div>
-          <div><b>Ответсвенный :</b> ${el['organisation']}</div>
-          <div><b>Исполнитель :</b> ${el['contractor'] ?? 'Не определен'} </div>
+          <div><b>Начало работы :</b> ${el["start-date"]}</div>
+          <div><b>Завершение работы :</b> ${el["end-date"]}</div>
+          <div><b>Район :</b> ${el["region"]}</div>
+          <div><b>Адрес :</b> ${el["address"]}</div>
+          <div><b>Категория работы :</b> ${el["category"]}</div>
+          <div><b>Ответственный :</b> ${el["organisation"]}</div>
+          <div><b>Исполнитель :</b> ${el["contractor"] ?? "Не определен"} </div>
           <div><b>Вскрытие работ :</b> ${
-            el['is-canvas-opened'] ? 'Да' : 'Нет'
+           el["is-canvas-opened"] ? "Да" : "Нет"
           }</div>
           <div><b>Перекрытие улиц :</b> ${
-            el['is-closured'] ? 'Да' : 'Нет'
+           el["is-closured"] ? "Да" : "Нет"
           }</div>
-          <div><b>Статус :</b> ${el.status.percentage}</div>
+          <div><b>Статус :</b> ${
+           el.status.percentage
+          }</div><div><b>Комментарии :</b> ${
+      `${el.status.commentary ?? ""} ${el["canvas-descr"] ?? ""} ${
+       el["closure-descr"] ?? ""
+      }`.trim().length > 0
+       ? `${el.status.commentary ?? ""} ${el["canvas-descr"] ?? ""} ${
+          el["closure-descr"] ?? ""
+         }`
+       : "Не задано"
+     }</div>
         </div>
       `,
-        },
-        options: {
-          // Курсор в режиме добавления новых вершин.
-          editorDrawingCursor: 'crosshair',
-          // Цвет заливки.
-          fillColor: el.color ?? '#851DA7',
-          fillOpacity: 0.5,
-          strokeColor: el.color ?? '#851DA7',
-          strokeWidth: 5,
-        },
-      }))
-  }
+    },
+    options: {
+     // Курсор в режиме добавления новых вершин.
+     editorDrawingCursor: "crosshair",
+     // Цвет заливки.
+     fillColor: el.color ?? "#851DA7",
+     fillOpacity: 0.5,
+     strokeColor: el.color ?? "#851DA7",
+     strokeWidth: 5,
+    },
+   }));
+ }
 
-  useEffect(() => {
-    isL &&
-      setMapData(
-        initialMapData.filter((el) =>
-          selectedResponsible.includes(
-            el.organisation.includes('Акимат') ? 'Акимат' : el.organisation
-          )
-        )
-      )
-  }, [selectedResponsible])
+ useEffect(() => {
+  isL &&
+   setMapData(
+    initialMapData.filter((el) =>
+     selectedResponsible.includes(
+      el.organisation.includes("Акимат") ? "Акимат" : el.organisation
+     )
+    )
+   );
+ }, [selectedResponsible]);
 
-  function resetAll() {
-    setReset()
-    setCheckedYears(null)
-    setCheckedDistricts([])
-    setCheckedCategories([])
-    getCard(initialYear, initialDistrict, initialCategory)
-  }
+ function resetAll() {
+  setReset();
+  setCheckedYears(null);
+  setCheckedDistricts([]);
+  setCheckedCategories([]);
+  getCard(initialYear, initialDistrict, initialCategory);
+ }
 
-  return (
-    <div className='RoadWorks_main'>
-      <div className='RoadWorks_wrapper'>
-        <div className='RoadWorks_title_wrap'>
-          <span className='RoadWorks_title'>Информация по районам</span>
-        </div>
-
-        <div className='RoadWorks_filter'>
-          <div className='RoadWorks_filter_filter'>
-            <div className='RoadWorks_filter_item'>
-              <CheckboxYears
-                titleBtn={checkedYears ?? initialYear ?? 'Временной период'}
-                dateP={'dateP'}
-                newVisible={periodVisible}
-                setVisible={setPeriodVisible}
-                years={years}
-                checkedYears={checkedYears}
-                setYears={setYears}
-                selectedDates={selectedDates}
-                setSelectedDates={setSelectedDates}
-                selectedCategory={selectedCategory}
-                selectedDistrict={selectedDistrict}
-                setCheckedYears={setCheckedYears}
-                getCard={getCard2}
-              />
-            </div>
-            <div className='RoadWorks_filter_item'>
-              <DistrictStreet
-                reset={reset}
-                setReset={setReset}
-                titleBtn={
-                  checkedDistricts.length > 0
-                    ? 'Районы'
-                    : initialDistrict ?? 'Районы'
-                }
-                getCard={getCard2}
-                selectedDistrict={selectedDistrict}
-                checkedYears={checkedYears}
-                setSelectedDistrict={setSelectedDistrict}
-                checkedDistricts={checkedDistricts}
-                initialDistrict={initialDistrict}
-                setCheckedDistricts={setCheckedDistricts}
-              />
-            </div>
-            <div className='RoadWorks_filter_item'>
-              <CheckboxCategory
-                reset={reset}
-                setReset={setReset}
-                titleBtn={
-                  checkedCategories.length > 0
-                    ? 'Категория работ'
-                    : initialCategory ?? 'Категория работ'
-                }
-                search={true}
-                getCard={getCard2}
-                initialCategory={initialCategory}
-                checkedYears={checkedYears ?? moment().format('YYYY')}
-                checkedDistricts={checkedDistricts}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                setPeriodVisible={setPeriodVisible}
-                checkedCategories={checkedCategories}
-                large={checkedCategories.length > 0 ? false : true}
-                setCheckedCategories={setCheckedCategories}
-                initialDistricts={initialDistrict}
-              />
-            </div>
-            <div
-              className='RoadWorks_filter_item'
-              style={{
-                display: `${
-                  checkedDistricts?.length > 0 ||
-                  checkedYears?.length > 0 ||
-                  checkedCategories?.length > 0
-                    ? 'flex'
-                    : 'none'
-                }`,
-              }}
-            >
-              <div
-                className='RoadWorks_filter_item_filter_buttons clear_filter '
-                onClick={() => {
-                  resetAll()
-                }}
-              >
-                <IconFilter style={{ height: '100%' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id='map_block' className={`RoadWorks_body map_block active`}>
-          <div className='legendForMap_roadWorks'>
-            {data
-              .reduce((organisations, organisation) => {
-                organisation.organisation = organisation.organisation.includes(
-                  'Акимат'
-                )
-                  ? 'Акимат'
-                  : organisation.organisation
-                if (
-                  organisations.filter(
-                    (el) => el.organisation === organisation.organisation
-                  ).length > 0
-                ) {
-                  return organisations
-                } else {
-                  return [...organisations, organisation]
-                }
-              }, [])
-              .map((el, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={`legendForMap_wrap ${
-                      selectedResponsible[
-                        data
-                          .reduce((organisations, organisation) => {
-                            organisation.organisation = organisation.organisation.includes(
-                              'Акимат'
-                            )
-                              ? 'Акимат'
-                              : organisation.organisation
-                            if (
-                              organisations.filter(
-                                (el) => el === organisation.organisation
-                              ).length > 0
-                            ) {
-                              return organisations
-                            } else {
-                              return [...organisations, organisation]
-                            }
-                          }, [])
-                          .map((el) => el)
-                          .indexOf(el)
-                      ] === el.organisation
-                        ? 'active'
-                        : ''
-                    } `}
-                    onClick={() => {
-                      let temp = selectedResponsible
-                      if (temp.includes(el.organisation))
-                        temp[
-                          data
-                            .reduce((organisations, organisation) => {
-                              organisation.organisation = organisation.organisation.includes(
-                                'Акимат'
-                              )
-                                ? 'Акимат'
-                                : organisation.organisation
-                              if (
-                                organisations.filter(
-                                  (el) =>
-                                    el.organisation ===
-                                    organisation.organisation
-                                ).length > 0
-                              ) {
-                                return organisations
-                              } else {
-                                return [...organisations, organisation]
-                              }
-                            }, [])
-                            .map((el) => el)
-                            .indexOf(el)
-                        ] = ''
-                      else
-                        temp[
-                          data
-                            .reduce((organisations, organisation) => {
-                              organisation.organisation = organisation.organisation.includes(
-                                'Акимат'
-                              )
-                                ? 'Акимат'
-                                : organisation.organisation
-                              if (
-                                organisations.filter(
-                                  (el) =>
-                                    el.organisation ===
-                                    organisation.organisation
-                                ).length > 0
-                              ) {
-                                return organisations
-                              } else {
-                                return [...organisations, organisation]
-                              }
-                            }, [])
-                            .map((el) => el)
-                            .indexOf(el)
-                        ] = el.organisation
-
-                      setSelectedResponsible([...temp])
-                    }}
-                  >
-                    <span
-                      className='legendForMap_color purple'
-                      style={{ background: `${el.color}` }}
-                    />
-                    <span title={el.fullName} className='legendForMap_text'>
-                      {el.organisation}
-                    </span>
-                  </div>
-                )
-              })}
-          </div>
-          <YandexMaps
-            mapData_={mapdata}
-            mapState={mapState}
-            mapdata={props.mapData ?? []}
-            data={props.schools ?? []}
-          />
-        </div>
-      </div>
+ return (
+  <div className="RoadWorks_main">
+   <div className="RoadWorks_wrapper">
+    <div className="RoadWorks_title_wrap">
+     <span className="RoadWorks_title">Информация по районам</span>
     </div>
-  )
+
+    <div className="RoadWorks_filter">
+     <div className="RoadWorks_filter_filter">
+      <div className="RoadWorks_filter_item">
+       <CheckboxYears
+        titleBtn={checkedYears ?? initialYear ?? "Временной период"}
+        dateP={"dateP"}
+        newVisible={periodVisible}
+        setVisible={setPeriodVisible}
+        years={years}
+        checkedYears={checkedYears}
+        setYears={setYears}
+        selectedDates={selectedDates}
+        setSelectedDates={setSelectedDates}
+        selectedCategory={selectedCategory}
+        selectedDistrict={selectedDistrict}
+        setCheckedYears={setCheckedYears}
+        getCard={getCard2}
+       />
+      </div>
+      <div className="RoadWorks_filter_item">
+       <DistrictStreet
+        reset={reset}
+        setReset={setReset}
+        titleBtn={
+         checkedDistricts.length > 0 ? "Районы" : initialDistrict ?? "Районы"
+        }
+        getCard={getCard2}
+        selectedDistrict={selectedDistrict}
+        checkedYears={checkedYears}
+        setSelectedDistrict={setSelectedDistrict}
+        checkedDistricts={checkedDistricts}
+        initialDistrict={initialDistrict}
+        setCheckedDistricts={setCheckedDistricts}
+       />
+      </div>
+      <div className="RoadWorks_filter_item">
+       <CheckboxCategory
+        reset={reset}
+        setReset={setReset}
+        titleBtn={
+         checkedCategories.length > 0
+          ? "Категория работ"
+          : initialCategory ?? "Категория работ"
+        }
+        search={true}
+        getCard={getCard2}
+        initialCategory={initialCategory}
+        checkedYears={checkedYears ?? moment().format("YYYY")}
+        checkedDistricts={checkedDistricts}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        setPeriodVisible={setPeriodVisible}
+        checkedCategories={checkedCategories}
+        large={checkedCategories.length > 0 ? false : true}
+        setCheckedCategories={setCheckedCategories}
+        initialDistricts={initialDistrict}
+       />
+      </div>
+      <div
+       className="RoadWorks_filter_item"
+       style={{
+        display: `${
+         checkedDistricts?.length > 0 ||
+         checkedYears?.length > 0 ||
+         checkedCategories?.length > 0
+          ? "flex"
+          : "none"
+        }`,
+       }}
+      >
+       <div
+        className="RoadWorks_filter_item_filter_buttons clear_filter "
+        onClick={() => {
+         resetAll();
+        }}
+       >
+        <IconFilter style={{ height: "100%" }} />
+       </div>
+      </div>
+     </div>
+    </div>
+    <div id="map_block" className={`RoadWorks_body map_block active`}>
+     <div className="legendForMap_roadWorks">
+      {data
+       .reduce((organisations, organisation) => {
+        organisation.organisation = organisation.organisation.includes("Акимат")
+         ? "Акимат"
+         : organisation.organisation;
+        if (
+         organisations.filter(
+          (el) => el.organisation === organisation.organisation
+         ).length > 0
+        ) {
+         return organisations;
+        } else {
+         return [...organisations, organisation];
+        }
+       }, [])
+       .map((el, index) => {
+        return (
+         <div
+          key={index}
+          className={`legendForMap_wrap ${
+           selectedResponsible[
+            data
+             .reduce((organisations, organisation) => {
+              organisation.organisation = organisation.organisation.includes(
+               "Акимат"
+              )
+               ? "Акимат"
+               : organisation.organisation;
+              if (
+               organisations.filter((el) => el === organisation.organisation)
+                .length > 0
+              ) {
+               return organisations;
+              } else {
+               return [...organisations, organisation];
+              }
+             }, [])
+             .map((el) => el)
+             .indexOf(el)
+           ] === el.organisation
+            ? "active"
+            : ""
+          } `}
+          onClick={() => {
+           let temp = selectedResponsible;
+           if (temp.includes(el.organisation))
+            temp[
+             data
+              .reduce((organisations, organisation) => {
+               organisation.organisation = organisation.organisation.includes(
+                "Акимат"
+               )
+                ? "Акимат"
+                : organisation.organisation;
+               if (
+                organisations.filter(
+                 (el) => el.organisation === organisation.organisation
+                ).length > 0
+               ) {
+                return organisations;
+               } else {
+                return [...organisations, organisation];
+               }
+              }, [])
+              .map((el) => el)
+              .indexOf(el)
+            ] = "";
+           else
+            temp[
+             data
+              .reduce((organisations, organisation) => {
+               organisation.organisation = organisation.organisation.includes(
+                "Акимат"
+               )
+                ? "Акимат"
+                : organisation.organisation;
+               if (
+                organisations.filter(
+                 (el) => el.organisation === organisation.organisation
+                ).length > 0
+               ) {
+                return organisations;
+               } else {
+                return [...organisations, organisation];
+               }
+              }, [])
+              .map((el) => el)
+              .indexOf(el)
+            ] = el.organisation;
+
+           setSelectedResponsible([...temp]);
+          }}
+         >
+          <span
+           className="legendForMap_color purple"
+           style={{ background: `${el.color}` }}
+          />
+          <span title={el.fullName} className="legendForMap_text">
+           {el.organisation}
+          </span>
+         </div>
+        );
+       })}
+     </div>
+     <YandexMaps
+      mapData_={mapdata}
+      mapState={mapState}
+      mapdata={props.mapData ?? []}
+      data={props.schools ?? []}
+     />
+    </div>
+   </div>
+  </div>
+ );
 }
 
 const checkCategory = (name) => {
-  switch (name) {
-    case 'Благоустройство дворов':
-      return 'Капитальный ремонт дворов'
-    case 'Кол-во мест в детском саду введены в эксплуатацию':
-      return 'Строительство и реконструкция садиков'
-    case 'Кол-во мест в школе введены в эксплуатацию':
-      return 'Строительство и реконструкция школ'
-    case 'Строительство пешеходных тротуаров':
-      return 'Реконструкция пешеходной зоны'
-    case 'Строительство сетей водопровода и канализации':
-      return 'Строительство и реконструкция канализации и водопровода'
-    case 'Строительство арычных сетей':
-      return 'Строительство и реконструкция арыков'
-    case 'Установка новых световых точек, опор наружного освещения':
-      return 'Строительство линий наружного освещения'
-    default:
-      return name
-  }
-}
+ switch (name) {
+  case "Благоустройство дворов":
+   return "Капитальный ремонт дворов";
+  case "Кол-во мест в детском саду введены в эксплуатацию":
+   return "Кол-во мест в детских садах";
+  //  return "Строительство и реконструкция садиков";
+  case "Кол-во мест в школе введены в эксплуатацию":
+   return "Кол-во мест в школах";
+  case "Строительство пешеходных тротуаров":
+   return "Реконструкция пешеходной зоны";
+  case "Строительство сетей водопровода и канализации":
+   return "Строительство и реконструкция канализации и водопровода";
+  case "Строительство арычных сетей":
+   return "Строительство и реконструкция арыков";
+  case "Установка новых световых точек, опор наружного освещения":
+   return "Строительство линий наружного освещения";
+  case "Реконструкция арычных сетей":
+   return "Строительство и реконструкция арыков";
+  default:
+   return name;
+ }
+};
 
-export default MMap
+export default MMap;

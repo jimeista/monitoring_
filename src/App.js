@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { Routes } from "./Routes";
-import { getMonitoring } from "./features/home/homeSlice";
+import { getMonitoring, getConfig } from "./features/home/homeSlice";
 
 // import './App.css'
 
@@ -13,10 +13,18 @@ import "antd/dist/antd.css";
 
 function App() {
  const dispatch = useDispatch();
+ const {config} = useSelector(state => state.home)
 
  useEffect(() => {
-  dispatch(getMonitoring());
+   dispatch(getConfig());
  }, []);
+
+ useEffect(() => {
+
+  if(config){
+   dispatch(getMonitoring({config}));
+  }
+ }, [config]);
 
  return (
   <Router basename="/sc-districts/v2/">

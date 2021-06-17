@@ -1,130 +1,137 @@
-import React, { useMemo, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import React, {useCallback, useMemo} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 
-import { Link } from 'react-router-dom'
+import {getCoordinates} from '../features/home/homeSlice'
 
-import { getCoordinates } from '../features/home/homeSlice'
-
+//карточка обертка данных по данным района
 const Card = (props) => {
   const dispatch = useDispatch()
+  const {config} = useSelector(state => state.home)
 
+  // открывает новое окно с картой
+  // записывает данные карточки в локальную память
   const onClick = useCallback(() => {
-    if (categories.includes(props.ru)) {
-      dispatch(getCoordinates({ region: props.district, category: props.ru }))
-      localStorage.setItem(
-        'block',
-        JSON.stringify({
-          ...props,
-        })
-      )
+    if(config){
+      if (categories.includes(props.ru)) {
+        dispatch(getCoordinates({data:{ region: props.district, category: props.ru }, config}))
+        localStorage.setItem(
+            'block',
+            JSON.stringify({
+              ...props,
+            })
+        )
+      }
     }
-  }, [props, dispatch])
+  }, [props, dispatch , config])
 
-  const wrappercard = useMemo(() => {
+  // обертка логики на переход на карту по районам и карточкам
+  return useMemo(() => {
+    // ограничение перехода по районам
     if (
-      props.district === 'Медеуский район' ||
-      props.district === 'Ауэзовский район'
+        props.district === 'Медеуский район' ||
+        props.district === 'Ауэзовский район'
     ) {
+      // ограничение перехода по карточкам
       if (categories.includes(props.ru)) {
         return (
-          <Link target='_blank' to='/map'>
+            <Link target='_blank' to='/map'>
+              <div
+                  className={` active card card_style_main ${
+                      categories.includes(props.ru) && 'is_hover'
+                  }`}
+                  onClick={onClick}
+                  style={{height: '50%'}}
+              >
+                <div id={'style_img' + props.cardId} className='img_p'/>
+                <div id={props.cardId}>
+                  <div className='card-row'>
+                    <span className='text_data_style'>DATA</span>
+                    <span className={'card-value'}>
+                    {props.value} {props.measurement}
+                  </span>
+                  </div>
+                  <div className='card-bordered'/>
+                  <div className='card-row'>
+                    <span>RU</span>
+                    <div>{props.ru}</div>
+                  </div>
+                  <div className='card-bordered'/>
+                  <div className='card-row'>
+                    <span>QZ</span>
+                    <div>{props.kz}</div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+        )
+      } else {
+        return (
             <div
-              className={` active card card_style_main ${
-                categories.includes(props.ru) && 'is_hover'
-              }`}
-              onClick={onClick}
-              style={{ height: '50%' }}
+                className={` active card card_style_main ${
+                    categories.includes(props.ru) && 'is_hover'
+                }`}
+                onClick={onClick}
+                style={{height: '50%'}}
             >
-              <div id={'style_img' + props.cardId} className='img_p' />
+              <div id={'style_img' + props.cardId} className='img_p'/>
               <div id={props.cardId}>
                 <div className='card-row'>
                   <span className='text_data_style'>DATA</span>
                   <span className={'card-value'}>
-                    {props.value} {props.measurement}
-                  </span>
+                  {props.value} {props.measurement}
+                </span>
                 </div>
-                <div className='card-bordered' />
+                <div className='card-bordered'/>
                 <div className='card-row'>
                   <span>RU</span>
                   <div>{props.ru}</div>
                 </div>
-                <div className='card-bordered' />
+                <div className='card-bordered'/>
                 <div className='card-row'>
                   <span>QZ</span>
                   <div>{props.kz}</div>
                 </div>
               </div>
             </div>
-          </Link>
         )
-      } else {
-        return (
+      }
+    } else {
+      return (
           <div
-            className={` active card card_style_main ${
-              categories.includes(props.ru) && 'is_hover'
-            }`}
-            onClick={onClick}
-            style={{ height: '50%' }}
+              // className={` active card card_style_main ${categories.includes(props.ru) && 'is_hover'}`}
+              className={` active card card_style_main`}
+              onClick={onClick}
+              style={{height: '50%'}}
           >
-            <div id={'style_img' + props.cardId} className='img_p' />
+            <div id={'style_img' + props.cardId} className='img_p'/>
             <div id={props.cardId}>
               <div className='card-row'>
                 <span className='text_data_style'>DATA</span>
                 <span className={'card-value'}>
-                  {props.value} {props.measurement}
-                </span>
+                {props.value} {props.measurement}
+              </span>
               </div>
-              <div className='card-bordered' />
+              <div className='card-bordered'/>
               <div className='card-row'>
                 <span>RU</span>
                 <div>{props.ru}</div>
               </div>
-              <div className='card-bordered' />
+              <div className='card-bordered'/>
               <div className='card-row'>
                 <span>QZ</span>
                 <div>{props.kz}</div>
               </div>
             </div>
           </div>
-        )
-      }
-    } else {
-      return (
-        <div
-          // className={` active card card_style_main ${categories.includes(props.ru) && 'is_hover'}`}
-          className={` active card card_style_main`}
-          onClick={onClick}
-          style={{ height: '50%' }}
-        >
-          <div id={'style_img' + props.cardId} className='img_p' />
-          <div id={props.cardId}>
-            <div className='card-row'>
-              <span className='text_data_style'>DATA</span>
-              <span className={'card-value'}>
-                {props.value} {props.measurement}
-              </span>
-            </div>
-            <div className='card-bordered' />
-            <div className='card-row'>
-              <span>RU</span>
-              <div>{props.ru}</div>
-            </div>
-            <div className='card-bordered' />
-            <div className='card-row'>
-              <span>QZ</span>
-              <div>{props.kz}</div>
-            </div>
-          </div>
-        </div>
       )
     }
   }, [onClick, props])
-
-  return wrappercard
 }
 
 export default React.memo(Card)
 
+// список карточек которые валидны для перехода на карту
 const categories = [
   'Благоустройство дворов',
   'Высадка деревьев',

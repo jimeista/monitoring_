@@ -4,6 +4,7 @@ import logo1 from '../assets/logo1.svg'
 import logo2 from '../assets/logo2.svg'
 import logo3 from '../assets/logo3.svg'
 
+// шапка с логотипами
 const HomeHeader = () => {
   return (
     <div className='home-header'>
